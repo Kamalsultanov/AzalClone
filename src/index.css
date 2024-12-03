@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+.workfontn {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+  .workfontb {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: bold;
+  }  
+
+
+  .specialscrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .specialscrollbar::-webkit-scrollbar-track {
+    background-color: #e7e7e7;
+    border-radius: 30px;
+  }
+  
+  .specialscrollbar::-webkit-scrollbar-thumb {
+    background-color: #919191;
+    border-radius: 30px;
+
+  }
+  
+  .react-datepicker__close-icon::after {
+    background-color: transparent !important;
+    content: url('assets/Icons/clearIcon.svg') !important;
+    border: 1px solid #bebfc0 ;
+  
+}
+
+.react-datepicker {
+  background-color: white !important; 
+  font-family: Arial, sans-serif; 
+}
+
+.react-datepicker__header {
+  background-color: white !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev{
+  display: none !important;
+}
+
+
+
+@media only screen and (min-width: 430px) {
+  
+  .swiper-button-next,
+  .swiper-button-prev {
+      background-color: white;
+      width: 30px !important;
+      height: 29px !important;
+      color: #000 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      border-radius: 100px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+      font-size: 15px !important; 
+      color: black !important;
+      font-weight: 700 !important;
+  }
+  
+}
+
