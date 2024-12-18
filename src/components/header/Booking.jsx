@@ -2,28 +2,30 @@ import React, { useContext, useEffect, useState } from "react";
 import { IoSwapVertical } from "react-icons/io5";
 import Directions from "../../assets/Icons/directions.svg";
 import { IoCalendarOutline } from "react-icons/io5";
-import { FaMagnifyingGlass } from "react-icons/fa6";
 import { GiAirplaneDeparture } from "react-icons/gi";
 import { PiArrowsOutCardinalLight } from "react-icons/pi";
 import { RxCross1 } from "react-icons/rx";
 import { DATA } from "../../Context/DataContext";
-import { DiVim } from "react-icons/di";
+import Locations from "./Locations";
+import { SlMagnifier } from "react-icons/sl";
 
+import { IoIosArrowDown } from "react-icons/io";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { addYears, isAfter } from "date-fns";
-
-
+import AllDirections from "./AllDirections";
+import Calendar from "./CalendarComponent";
 
 
 function Booking() {
-
-  
+  const { from } = useContext(DATA);
   
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [focusedInput, setFocusedInput] = useState("")
+
+
+  const [outboundDate, setOutboundDate] = useState(null);
+  const [returnDate, setReturnDate] = useState(null);
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
 
   const [openTab, setOpenTab] = useState(false);
@@ -32,17 +34,22 @@ function Booking() {
   const [fromAirportCode, setFromAirportCode] = useState('');
   const [toAirportCode, setToAirportCode] = useState('');
 
+  const handleCloseCalendar = () => {
+    setIsCalendarVisible(!isCalendarVisible);
+  };
+ 
+  useEffect(() => {
+    if (isCalendarVisible) {
+      document.body.style.overflow = 'hidden'; 
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isCalendarVisible]); 
 
-  const [outboundDate, setOutboundDate] = useState(null);
-  const [returnDate, setReturnDate] = useState(null);
-
-  const { from } = useContext(DATA);
-
-
-  const today = new Date();
-  const maxOutboundDate = addYears(today, 1);
-
-
+  // Close the Tab
   const toggleSearchTab = () => {
     setOpenTab(!openTab);
     setAllDirectionTab(false);
@@ -64,7 +71,6 @@ function Booking() {
       setToSearch(cityName.trim());    
       setToAirportCode(airportCode);   
     }
-  
     setOpenTab(false); 
     setAllDirectionTab(false);
   };
@@ -77,392 +83,196 @@ function Booking() {
     }
   }, [openTab]);
 
-
-  useEffect(() => {}, [fromSearch, from]);
-
+    // -------------------------- Airports Swap -------------- 
+  const swapLocations = () => {
+    setFromSearch(toSearch);
+    setToSearch(fromSearch);
   
-  return (
-    <>
-      <div className="bg-[#01357e] text-white p-4 max-w-md mx-auto">
-        <div className="mb-4 relative">
-          <button className="absolute top-10 right-3 p-1 border-2 rounded-full z-10 bg-white">
-            <IoSwapVertical color="black" />
-          </button>
-          <label className="flex justify-between items-center h-[55px] bg-white text-black  p-3 rounded-t-md border-b-2 relative">
-            <input type="text" className="w-full h-full outline-none font-bold workfontb"
-               value={fromSearch}
-              onChange={(e) => setFromSearch(e.target.value)}
-              onFocus={() => setFocusedInput('from')}
-              onClick={toggleSearchTab} 
-              placeholder="From"  />
-            <span className="text-gray-500 workfontn">{fromAirportCode }</span>
-          </label>
-          
-            <label className="flex justify-between items-center h-[50px] bg-white text-black p-3 rounded-b-md relative">
-            <input 
-              type="text" 
-              className="w-full h-full outline-none font-bold"
-              value={toSearch}
-              onChange={(e) => setToSearch(e.target.value)}
-              onFocus={() => setFocusedInput('to')}
-              onClick={toggleSearchTab} 
-              placeholder="To" 
-            />
-            <span className="text-gray-500 workfontn">{toAirportCode }</span>
-            </label>
-        </div>
-        {/*     ----------------------------------------Calendar----------------------------------*/}
-        <div className="mb-4">
-          <div className="flex items-center bg-white text-black p-3 rounded-md  w-full ">
-          
-          <DatePicker
-            selected={outboundDate}
-            onChange={(date) => setOutboundDate(date)} 
-            dateFormat="dd MMM"
-            className="p-2 w-full outline-none rounded-md border-r "
-              placeholderText="Outbound date"
-              minDate={today} 
-              maxDate={maxOutboundDate}
-              isClearable
-          />
-          
-          <DatePicker
-            selected={returnDate}
-            onChange={(date) => setReturnDate(date)} 
-            dateFormat="dd MMM"
-            className="p-2 w-full  rounded-md"
-              placeholderText="Return date"
-              minDate={today} 
-              maxDate={maxOutboundDate}
-              isClearable
-          />
+    setFromAirportCode(toAirportCode);
+    setToAirportCode(fromAirportCode);
+  };
 
+
+  //  ------------------------PASSENGER SELECT--------------- 
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
+  const [babies, setBabies] = useState(0);
+  const [selectedClass, setSelectedClass] = useState('Economy');
+  const [isPassengerOpen, setPassengerOpen] = useState(false);
+
+
+  const handleClick = (className) => {
+    setSelectedClass(className);
+  };
+  const handlePassengerTab = () => {
+    setPassengerOpen(prevState => !prevState);
+  };
+
+  const changeCount = (type, delta) => {
+
+    const newCount = type === 'adults' ? adults + delta :
+                     type === 'children' ? children + delta : babies + delta;
+
+    if (newCount >= 0 && adults + children + babies + delta <= 8) {
+      if (type === 'adults') setAdults(adults + delta);
+      if (type === 'children') setChildren(children + delta);
+      if (type === 'babies') setBabies(babies + delta);
+    }
+  };
+
+
+  useEffect(() => {
+    if (isPassengerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isPassengerOpen]);
+
+
+  return (
+    <div className="md:w-[100%]">
+        <div className=" sm:bg-white   mx-auto my-3 rounded-lg  md:w-[80%]  p-2">
+          <div className="  text-white w-full    rounded-lg md:flex  md:items-center   ">
+            {/*     ----------------------------------------Location----------------------------------*/}
+            <div className="mb-4 mt-4 relative sm:border border-gray-400   md:flex md:items-center md:w-[50%] ">
+                  <label className="flex justify-between items-center h-[55px] bg-white text-black 
+                    p-3 rounded-t-md md:rounded-t-none  relative
+                    md:p-0 md:border-r md:border-gray-400 ">
+                    <input type="text" className="w-full h-full outline-none font-bold workfontb p-2"
+                      value={fromSearch}
+                      onChange={(e) => setFromSearch(e.target.value)}
+                      onFocus={() => setFocusedInput('from')}
+                      onClick={toggleSearchTab} 
+                      placeholder="From"  />
+                    <span className="text-gray-500 workfontn md:mx-5">{fromAirportCode }</span>
+                  </label>
+                  <button
+                    onClick={swapLocations}
+                    className="absolute top-10 right-3 p-1 border-2 rounded-full z-10 bg-white
+                      md:rotate-90 md:relative md:translate-y-[-40px]  ">
+                    <IoSwapVertical color="black" />
+                  </button>
+                  <label className="flex justify-between items-center h-[50px] bg-white text-black p-3 relative
+                    md:rounded-l-lg md: md:p-0  md:border-gray-400
+                    ">
+                      <input 
+                        type="text" 
+                        className="w-full h-full outline-none font-bold p-2"
+                        value={toSearch}
+                        onChange={(e) => setToSearch(e.target.value)}
+                        onFocus={() => setFocusedInput('to')}
+                        onClick={toggleSearchTab} 
+                        placeholder="To" 
+                      />
+                      <span className="text-gray-500 workfontn md:p-2">{toAirportCode }</span>
+                  </label>
+            </div>
+              {/*     ----------------------------------------Calendar----------------------------------*/}
+              <div className="mb-4  sm:border rounded-md  md:rounded-none md:h-14  md:my-3 md:border md:min-w-[20%] md:border-gray-400 ">
+                <label className="flex justify-around items-center h-[50px] bg-white  p-3 rounded-md relative">
+                  <button onClick={handleCloseCalendar} className="flex justify-between items-center w-full text-[#6E7583]">
+                    {outboundDate || returnDate ? (
+                      <>
+                        <div className="flex-1 text-left text-black font-semibold">
+                        <label
+                              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-90 mt-1
+                          top-2 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                          peer-focus:scale-75 peer-focus:-translate-y-3"
+                          >
+                          Outbound
+                          </label>
+                          <p className="pt-3">{outboundDate ? outboundDate.toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "Outbound"}</p>
+                        </div>
+                        <span className="mx-2 text-gray-500">|</span>
+                        <div className="flex-1 text-right text-black font-semibold">
+                          <label
+                              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-90 mt-1
+                          top-2 z-10 origin-[0] end-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                          peer-focus:scale-75 peer-focus:-translate-y-3"
+                          >
+                          Return
+                          </label>
+                          <p className="pt-3">{returnDate ? returnDate.toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "---"}</p>
+
+                        </div>
+                      </>
+                    ) : (
+                      <span className="flex justify-between items-center w-full text-[#6E7583]">
+                        <p>Flight date</p>
+                        <IoCalendarOutline size={22} />
+                      </span>
+                    )}
+                  </button>
+                </label>
+              </div>
+                      {/*------------- Classes ----------------- */}
+              <div className="mb-2  sm:border rounded-md md:rounded-none  md:h-14 md:py-1  md:my-3 md:border md:w-[20%]  md:border-gray-400">
+                <button className="bg-white text-black pt-4 pb-2 px-3 w-full rounded-lg relative flex justify-between items-center "
+                onClick={handlePassengerTab}
+                >
+                  <label
+                      className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-90 mt-1
+                  top-2 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                  peer-focus:scale-75 peer-focus:-translate-y-3"
+                  >
+                  Pasengers
+                  </label>
+                  <p className="workfontb text-[0.8em] text-[#2E3034]">1, Economy</p>
+                  <IoIosArrowDown size={22} className="flex justify-end" />
+
+                </button>
+              
+              </div>
+
+              <div className="mb-4   sm:border border-[#2C8DC7] rounded-md md:hidden  ">
+                <button className="bg-white text-blue-900 w-full p-3 rounded-md flex items-center justify-center">
+                  + Add promo code
+                </button>
+              </div>
+
+              <div className="mb-4  md:hidden sm:text-black">
+                <label className="flex items-center">
+                  <input type="checkbox" className="mr-2"/>
+                  Pay by Miles
+                </label>
+              </div>
+
+              <div>
+                <button className="bg-[#37A6DB] w-full text-white py-3 rounded-md md:rounded-r-lg md:rounded-none md:px-3 md:py-[18px] md:bg-[#01357e] ">
+                    <p className="md:hidden">Search</p>
+                    <p className="hidden md:block"><SlMagnifier size={23} /></p>
+                </button>
+              </div>
+          </div>
+          <div className=" justify-between hidden md:flex ">
+                <div className="mx-2">
+                  <label className="flex items-center text-black">
+                    <input type="checkbox" className="mr-2"/>
+                    Pay by Miles
+                  </label>
+                </div>
+                <div className="  sm:border border-[#2C8DC7] rounded-md mx-2 ">
+                      <button className="bg-white text-blue-900 w-full p-3 rounded-md flex items-center justify-center">
+                        + Add promo code
+                      </button>
+                </div>
+                
           </div>
         </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Passengers</label>
-          <select className="bg-white text-black p-3 rounded-md w-full">
-            <option>1, Economy</option>
-            <option>2, Economy</option>
-            <option>1, Business</option>
-            <option>2, Business</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <button className="bg-white text-blue-900 w-full p-3 rounded-md flex items-center justify-center">
-            + Add promo code
-          </button>
-        </div>
-
-        <div className="mb-4">
-          <label className="flex items-center">
-            <input type="checkbox" className="mr-2"/>
-            Pay by Miles
-          </label>
-        </div>
-
-        <div>
-          <button className="bg-blue-500 w-full text-white py-3 rounded-md">
-              Search
-              
-          </button>
-        </div>
-      </div>
-      
           {openTab && 
           <div id="fromcountries" className="w-full h-full absolute top-0  bg-white z-50  overflow-hidden">
             <div>
               <h3 className="font-bold m-2 text-[1.4em] text-[#333539]">Choose direction</h3>
               <button onClick={toggleSearchTab} className="absolute right-2 top-3"><RxCross1 size={25} /></button>
             </div>
-
             <div className=" w-[90%] mx-auto relative  ">
-              <div className="flex border rounded-md  border-gray-300 focus-within:ring-1 focus-within:ring-blue-500 ">
-              <input
-                type="text"
-                className="w-full p-2 outline-none rounded-md peer workfontb"
-                value={focusedInput === 'from' ? fromSearch : focusedInput === 'to' ? toSearch : ''}
-                onChange={(e) => {
-                  if (focusedInput === 'from') {
-                    setFromSearch(e.target.value);
-                  } else if (focusedInput === 'to') {
-                    setToSearch(e.target.value);
-                  }
-                }}
-                placeholder=""
-              />
-                  <span className="p-2">
-                    <FaMagnifyingGlass size={20} color="#333539" />
-                  </span>
-                  <span className="absolute  text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 
-                  top-2 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100
-                  peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                  {focusedInput === 'from' ? 'From' : 'To'}
-                  </span>
-              </div>
+              
               <div>
-              {allDirectionTab ? (
-                <ul className="flex-col overflow-y-auto max-h-[80vh] specialscrollbar m-2  ">
-                    {from .filter(item => 
-                      (focusedInput === 'from' ? fromSearch : toSearch) &&
-                      (
-                        item.name.includes('Azerbaijan') && 
-                        (
-                          item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                           item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                        )
-                      )
-                    )
-                    .length > 0 && (
-                      <li className="pt-5">
-                        <span className="text-[1.1em]">Azerbaijan</span>
-                        <ul className="border rounded-lg">
-                          {from
-                            .filter(item => 
-                              item.name.includes('Azerbaijan') && 
-                              (
-                                item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                                item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                              )
-                            )
-                            .map(item => {
-                              const cityName = item.name.split(',')[0];
-                              return (
-                                <li key={item.code} className="flex items-center w-[100%] p-3 cursor-pointer hover:bg-gray-100 border-b rounded-lg"
-                                  onClick={() => handleCountryClick(item)}>
-                                  <GiAirplaneDeparture className="min-w-6 min-h-6" color="#cdd5df" />
-                                  <span className="workfontb p-2 text-[0.95em] font-bold items-center text-ellipsis overflow-hidden whitespace-nowrap">
-                                    {cityName}
-                                  </span>
-                                  <span className="ml-auto text-[0.8em] mr-2 text-[#6E7583]">({item.code})</span>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </li>
-                    )}
-                  
-                    {from
-                    .filter(item => 
-                      (focusedInput === 'from' ? fromSearch : toSearch) &&
-                      (
-                        item.name.includes('Turkiye') && 
-                        (
-                          item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                          item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                        )
-                      )
-                    )
-                    .length > 0 && (
-                      <li className="pt-5">
-                        <span className="text-[1.1em]">Turkiye</span>
-                        <ul className="border rounded-lg">
-                          {from
-                            .filter(item => 
-                              item.name.includes('Turkiye') && 
-                              (
-                                item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                                item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                              )
-                            )
-                            .map(item => {
-                              const cityName = item.name.split(',')[0];
-                              return (
-                                <li key={item.code} className="flex items-center w-[100%] p-3 cursor-pointer hover:bg-gray-100 border-b rounded-lg"
-                                  onClick={() => handleCountryClick(item)}>
-                                  <GiAirplaneDeparture className="min-w-6 min-h-6" color="#cdd5df" />
-                                  <span className="workfontb p-2 text-[0.95em] font-bold items-center text-ellipsis overflow-hidden whitespace-nowrap">
-                                    {cityName}
-                                  </span>
-                                  <span className="ml-auto text-[0.8em] mr-2 text-[#6E7583]">({item.code})</span>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </li>
-                    )}
-                   {from
-                    .filter(item => 
-                      (focusedInput === 'from' ? fromSearch : toSearch) &&
-                      (
-                        item.name.includes('Russia') && 
-                        (
-                          item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                          item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                        )
-                      )
-                    )
-                    .length > 0 && (
-                      <li className="pt-5">
-                        <span className="text-[1.1em]">Russia</span>
-                        <ul className="border rounded-lg">
-                          {from
-                            .filter(item => 
-                              item.name.includes('Russia') && 
-                              (
-                                item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                                item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                              )
-                            )
-                            .map(item => {
-                              const cityName = item.name.split(',')[0];
-                              return (
-                                <li key={item.code} className="flex items-center w-[100%] p-3 cursor-pointer hover:bg-gray-100 border-b rounded-lg"
-                                  onClick={() => handleCountryClick(item)}>
-                                  <GiAirplaneDeparture className="min-w-6 min-h-6" color="#cdd5df" />
-                                  <span className="workfontb p-2 text-[0.95em] font-bold items-center text-ellipsis overflow-hidden whitespace-nowrap">
-                                    {cityName}
-                                  </span>
-                                  <span className="ml-auto text-[0.8em] mr-2 text-[#6E7583]">({item.code})</span>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </li>
-                    )}
-                   {from
-                    .filter(item => 
-                      (focusedInput === 'from' ? fromSearch : toSearch) &&
-                      (
-                        item.zone.includes('Asia') &&  !item.name.includes('Turkiye') &&  !item.name.includes('Russia') &&  !item.name.includes('Azerbaijan') && 
-                        (
-                          item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                          item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                        )
-                      )
-                    )
-                    .length > 0 && (
-                      <li className="pt-5">
-                        <span className="text-[1.1em]">Asia</span>
-                        <ul className="border rounded-lg">
-                          {from
-                            .filter(item => 
-                              item.zone.includes('Asia') && !item.name.includes('Turkiye') &&  !item.name.includes('Russia') &&  !item.name.includes('Azerbaijan') &&
-                              (
-                                item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                                item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                              )
-                            )
-                            .map(item => {
-                              const cityName = item.name.split(',')[0];
-                              return (
-                                <li key={item.code} className="flex items-center w-[100%] p-3 cursor-pointer hover:bg-gray-100 border-b rounded-lg"
-                                  onClick={() => handleCountryClick(item)}>
-                                  <GiAirplaneDeparture className="min-w-6 min-h-6" color="#cdd5df" />
-                                  <span className="workfontb p-2 text-[0.95em] font-bold items-center text-ellipsis overflow-hidden whitespace-nowrap">
-                                    {cityName}
-                                  </span>
-                                  <span className="ml-auto text-[0.8em] mr-2 text-[#6E7583]">({item.code})</span>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </li>
-                    )}
-                  {from
-                    .filter(item => 
-                      (focusedInput === 'from' ? fromSearch : toSearch) &&
-                      (
-                        item.zone.includes('Europe') &&  !item.name.includes('Turkiye') &&  !item.name.includes('Russia') &&
-                        (
-                          item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                          item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                        )
-                      )
-                    )
-                    .length > 0 && (
-                      <li className="pt-5">
-                        <span className="text-[1.1em]">Europe</span>
-                        <ul className="border rounded-lg">
-                          {from
-                            .filter(item => 
-                              item.zone.includes('Europe') && !item.name.includes('Turkiye') &&  !item.name.includes('Russia') &&
-                              (
-                                item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                                item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                              )
-                            )
-                            .map(item => {
-                              const cityName = item.name.split(',')[0];
-                              return (
-                                <li key={item.code} className="flex items-center w-[100%] p-3 cursor-pointer hover:bg-gray-100 border-b rounded-lg"
-                                  onClick={() => handleCountryClick(item)}>
-                                  <GiAirplaneDeparture className="min-w-6 min-h-6" color="#cdd5df" />
-                                  <span className="workfontb p-2 text-[0.95em] font-bold items-center text-ellipsis overflow-hidden whitespace-nowrap">
-                                    {cityName}
-                                  </span>
-                                  <span className="ml-auto text-[0.8em] mr-2 text-[#6E7583]">({item.code})</span>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </li>
-                    )}
-                  {from
-                    .filter(item => 
-                      (focusedInput === 'from' ? fromSearch : toSearch) &&
-                      (
-                        item.zone.includes('Africa') &&
-                        (
-                          item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                          item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                        )
-                      )
-                    )
-                    .length > 0 && (
-                      <li className="pt-5">
-                        <span className="text-[1.1em]">Africa</span>
-                        <ul className="border rounded-lg">
-                          {from
-                            .filter(item => 
-                              item.zone.includes('Africa') && 
-                              (
-                                item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) ||
-                                item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase())
-                              )
-                            )
-                            .map(item => {
-                              const cityName = item.name.split(',')[0];
-                              return (
-                                <li key={item.code} className="flex items-center w-[100%] p-3 cursor-pointer hover:bg-gray-100 border-b rounded-lg"
-                                  onClick={() => handleCountryClick(item)}>
-                                  <GiAirplaneDeparture className="min-w-6 min-h-6" color="#cdd5df" />
-                                  <span className="workfontb p-2 text-[0.95em] font-bold items-center text-ellipsis overflow-hidden whitespace-nowrap">
-                                    {cityName}
-                                  </span>
-                                  <span className="ml-auto text-[0.8em] mr-2 text-[#6E7583]">({item.code})</span>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </li>
-                    )}
-                </ul>
+              {allDirectionTab ? ( <AllDirections onCountryClick={handleCountryClick}/>
               ) : (
-                <ul className="flex-col overflow-y-auto  max-h-[75vh] specialscrollbar my-3" >
-                  {    (focusedInput === 'from' ? fromSearch : toSearch) && from
-                  .filter(item =>  (item.name.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()) || 
-                      item.code.toLowerCase().includes((focusedInput === 'from' ? fromSearch : toSearch).toLowerCase()))
-                    )
-                  .map(item => (
-                        
-                    <li key={item.code}
-                      className="flex items-center w-[100%] p-1 cursor-pointer hover:bg-gray-100 "
-                      onClick={() => handleCountryClick(item)}
-                    >
-                      <GiAirplaneDeparture  className="min-w-6 min-h-6" color="#cdd5df" />
-                      <span className="workfontb p-2 text-[0.95em] font-bold  items-center text-ellipsis overflow-hidden whitespace-nowrap">
-                        {item.name}
-                      </span>
-                      
-                      <span className="ml-auto mr-2 text-[#6E7583]">
-                        {item.code}
-                      </span>
-                    </li>
-                        ))}
-                </ul>)
+                  <Locations onCountryClick={handleCountryClick} />
+              )
                 }
               </div>
             </div>
@@ -478,7 +288,113 @@ function Booking() {
             </button>
           </div>
         }
-    </>  
+        <div className="overflow-hidden h-[100%]">
+          <Calendar
+          outboundDate={outboundDate}
+          returnDate={returnDate}
+          isCalendarVisible={isCalendarVisible}
+          setOutboundDate={setOutboundDate}
+          setReturnDate={setReturnDate}
+          setIsCalendarVisible={setIsCalendarVisible}
+          />
+      </div>
+        {/* -----------------CLASSSELECT-------------- */}
+      { isPassengerOpen &&( <div className=" absolute top-0 w-full h-full bg-white z-50">
+        <button className="absolute right-2 top-3"
+          onClick={handlePassengerTab}
+        ><RxCross1 size={25} /></button>
+        <h3 className="p-2 text-[1.3em] workfontb">Passenger selection</h3>
+        <ul>
+          <li className="flex justify-between items-center">
+            <span className="p-3 m-1">
+              <p>Adults</p>
+              <p className="text-xs text-gray-500">from 12 years</p>
+            </span>
+            <span className="flex items-center space-x-2">
+              <button
+                onClick={() => changeCount('adults', -1)}
+                className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                disabled={adults === 1}
+              >
+                <span className="text-lg font-semibold">-</span>
+              </button>
+              <span className="font-medium">{adults}</span>
+              <button
+                onClick={() => changeCount('adults', 1)}
+                className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                disabled={adults + children + babies === 8}
+              >
+                <span className="text-lg font-semibold">+</span>
+              </button>
+            </span>
+          </li>
+          <li className="flex justify-between items-center">
+            <span className="p-3 m-1">
+              <p>Children</p>
+              <p className="text-xs text-gray-500">up to 12 years</p>
+            </span>
+            <span className="flex items-center space-x-2">
+              <button
+                onClick={() => changeCount('children', -1)}
+                className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                disabled={children === 0}
+              >
+                <span className="text-lg font-semibold">-</span>
+              </button>
+              <span className="font-medium">{children}</span>
+              <button
+                onClick={() => changeCount('children', 1)}
+                className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                disabled={adults + children + babies === 8}
+              >
+                <span className="text-lg font-semibold">+</span>
+              </button>
+            </span>
+          </li>
+          <li className="flex justify-between items-center">
+            <span className="p-3 m-1">
+              <p>Infants</p>
+              <p className="text-xs text-gray-500">up to 2 years</p>
+            </span>
+            <span className="flex items-center space-x-2">
+              <button
+                onClick={() => changeCount('babies', -1)}
+                className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                disabled={babies === 0}
+              >
+                <span className="text-lg font-semibold">-</span>
+              </button>
+              <span className="font-medium">{babies}</span>
+              <button
+                onClick={() => changeCount('babies', 1)}
+                className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                disabled={adults + children + babies === 8 }
+                >
+                <span className="text-lg font-semibold">+</span>
+              </button>
+            </span>
+          </li>
+          
+
+        </ul>
+        <div className="flex w-[90%] justify-center mx-auto m-2">
+          <button
+            onClick={() => handleClick('Economy')}
+            className={`rounded-l-lg  px-4 py-2 border w-[50%] 
+                      ${selectedClass === 'Economy' ? 'bg-blue-100 text-blue-700 border-blue-500 ' : 'bg-gray-100 text-black'}`}
+          >
+            Economy
+          </button>
+          <button
+            onClick={() => handleClick('Business')}
+            className={`rounded-r-lg  px-4 py-2 border w-[50%] 
+                      ${selectedClass === 'Business' ? 'bg-blue-100 text-blue-700 border-blue-500' : 'bg-gray-100 text-black'}`}
+          >
+            Business
+          </button>
+        </div>
+      </div>)}
+    </div>  
   );
 };
 

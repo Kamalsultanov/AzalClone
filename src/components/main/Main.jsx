@@ -7,7 +7,7 @@ import Booking from '../header/Booking';
 function Main() {
   return (
     <div>
-      <div>
+      <div className='bg-[#01357e] '>
         <Booking/>
       </div>
       <div>
