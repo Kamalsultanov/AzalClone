@@ -7,9 +7,7 @@ import Booking from '../header/Booking';
 function Main() {
   return (
     <div>
-      <div className='bg-[#01357e] '>
-        <Booking/>
-      </div>
+      <div id='headermain' className='h-[70vh] flex items-center'><Booking/></div>
       <div>
           <Slider />
         < SpecialOffer/>

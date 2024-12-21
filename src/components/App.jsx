@@ -2,9 +2,13 @@ import Header from "./header/Header";
 import Main from "./main/Main";
 import Footer from "./footer/Footer";
 import Layout from "../Layout/Layout";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, } from "react-router-dom";
 import Offers from "./main/Offers/Offers";
+import React, { useContext, useEffect, useState } from "react";
+
 import OfferDetailPage from "./main/offers/OfferDetailPage";
+import Booking from "./header/Booking";
+import Reservation from "./reservation/Reservation";
 
 function App() {
 
@@ -15,12 +19,16 @@ function App() {
   //     .then((d) => console.log(d));
   // });
 
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="/" index element={<Main />} />
         <Route path="/offers" element={<Offers/>} /> 
-        <Route path="/offers/:offerId" element={<OfferDetailPage />}/>
+        <Route path="/offers/:offerId" element={<OfferDetailPage />} />
+        <Route path="/flight"  element={<Booking />}/> 
+        <Route path="/book" element={<Reservation />} />
+
       </Route>
     </Routes>
   );
