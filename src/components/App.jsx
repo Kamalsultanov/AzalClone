@@ -9,6 +9,7 @@ import React, { useContext, useEffect, useState } from "react";
 import OfferDetailPage from "./main/offers/OfferDetailPage";
 import Booking from "./header/Booking";
 import Reservation from "./reservation/Reservation";
+import Confirmation from "./reservation/Confirmation";
 
 function App() {
 
@@ -19,7 +20,6 @@ function App() {
   //     .then((d) => console.log(d));
   // });
 
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -28,7 +28,7 @@ function App() {
         <Route path="/offers/:offerId" element={<OfferDetailPage />} />
         <Route path="/flight"  element={<Booking />}/> 
         <Route path="/book" element={<Reservation />} />
-
+        <Route path="/confirm" element={<Confirmation />} />
       </Route>
     </Routes>
   );

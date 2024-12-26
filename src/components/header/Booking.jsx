@@ -8,19 +8,17 @@ import { RxCross1 } from "react-icons/rx";
 import { DATA } from "../../Context/DataContext";
 import Locations from "./Locations";
 import { SlMagnifier } from "react-icons/sl";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 import { IoIosArrowDown } from "react-icons/io";
 
 import AllDirections from "./AllDirections";
 import Calendar from "./CalendarComponent";
 
-function Booking( ) {
+function Booking() {
   const { from } = useContext(DATA);
   const navigate = useNavigate();
 
-  
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [focusedInput, setFocusedInput] = useState("");
@@ -35,7 +33,6 @@ function Booking( ) {
   const [fromAirportCode, setFromAirportCode] = useState("");
   const [toAirportCode, setToAirportCode] = useState("");
 
-
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [babies, setBabies] = useState(0);
@@ -46,7 +43,6 @@ function Booking( ) {
     setIsCalendarVisible(!isCalendarVisible);
   };
 
-  
   useEffect(() => {
     const handleScroll = () => {
       document.body.style.overflow =
@@ -95,7 +91,32 @@ function Booking( ) {
     }
   }, [openTab]);
   // -------------------------------Data submit --------------------
+
+  const [errors, setErrors] = useState({
+    fromSearch: false,
+    toSearch: false,
+    outboundDate: false,
+    fromAirportCode: false,
+    toAirportCode: false,
+    selectedClass: false,
+  });
+
   const handleSubmit = () => {
+    const newErrors = {
+      fromSearch: !fromSearch,
+      toSearch: !toSearch,
+      outboundDate: !outboundDate,
+      fromAirportCode: !fromAirportCode,
+      toAirportCode: !toAirportCode,
+      selectedClass: !selectedClass,
+    };
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).includes(true)) {
+      return;
+    }
+
     const bookingDetails = {
       fromSearch,
       toSearch,
@@ -108,8 +129,9 @@ function Booking( ) {
       babies,
       selectedClass,
     };
-  
-    navigate('/book', { state: bookingDetails });
+
+    navigate("/book", { state: { ...bookingDetails, refresh: Date.now() } });
+
   };
   // -------------------------- Airports Swap --------------
   const swapLocations = () => {
@@ -153,19 +175,33 @@ function Booking( ) {
   }, [isPassengerOpen]);
 
   return (
-    <div className="md:w-[100%]">
-      <div className=" sm:bg-white   mx-auto my-3  rounded-md md:w-[80%]  p-2">
+    <div className=" w-full  content-center sm:bg-transparent">
+      <div className="   my-3  rounded-md  p-2  sm:bg-white md:w-[80%]  mt-10 mx-auto">
         <div className="   w-full    md:flex  md:items-center  md:relative ">
           {/*     ----------------------------------------Location----------------------------------*/}
-          <div className="mb-4 mt-4 relative sm:border md:rounded-l-md  border-gray-400   md:flex md:items-center md:w-[50%] ">
+          <div
+            className={`mb-4 mt-4 relative  md:flex md:items-center md:w-[50%] border border-gray-400 rounded-md md:rounded-none  md:rounded-l-md
+            ${errors.fromSearch ? "border-red-600  " : "border-gray-400 "}
+            `}
+          >
             <label
-              className="flex justify-between items-center h-[45px] bg-white text-black 
-                    p-3 rounded-t-md md:rounded-t-none  relative
-                    md:p-0 md:border-r md:border-gray-400 "
+              className={`flex justify-between items-center h-[45px] p-3   relative
+                    bg-white text-black  
+                   rounded-t-md md:rounded-t-none  border-b md:border-b-0 md:border-r
+                   ${
+                     errors.fromSearch
+                       ? "md:border-r border-red-600  "
+                       : "border-gray-400"
+                   }
+                   `}
             >
               <input
                 type="text"
-                className="w-full h-full outline-none font-bold workfontb p-2"
+                className={`w-full h-full outline-none font-bold workfontb p-2 ${
+                  errors.fromSearch
+                    ? "placeholder-red-600  "
+                    : "placeholder-black"
+                }`}
                 value={fromSearch}
                 onChange={(e) => setFromSearch(e.target.value)}
                 onFocus={() => setFocusedInput("from")}
@@ -178,19 +214,25 @@ function Booking( ) {
             </label>
             <button
               onClick={swapLocations}
-              className="absolute top-10 right-3 p-1 border-2 rounded-full z-10 bg-white
+              className="absolute top-8 md:top-10 right-3 p-1 border-2 rounded-full z-10 bg-white
                       md:rotate-90 md:relative md:translate-y-[-40px]  "
             >
               <IoSwapVertical color="black" />
             </button>
             <label
-              className="flex justify-between items-center h-[50px] bg-white text-black p-3 relative
+              className="flex justify-between items-center h-[50px]
+                  bg-white text-black
+                    rounded-b-lg  p-3 relative
                     md:rounded-l-lg md: md:p-0  md:border-gray-400
                     "
             >
               <input
                 type="text"
-                className="w-full h-full outline-none font-bold p-2"
+                className={`w-full h-full outline-none font-bold workfontb p-2 ${
+                  errors.toSearch
+                    ? "placeholder-red-600  "
+                    : "placeholder-black"
+                }`}
                 value={toSearch}
                 onChange={(e) => setToSearch(e.target.value)}
                 onFocus={() => setFocusedInput("to")}
@@ -203,7 +245,11 @@ function Booking( ) {
             </label>
           </div>
           {/*     ----------------------------------------Calendar----------------------------------*/}
-          <div className="mb-4  sm:border rounded-md  md:rounded-none md:h-13  md:my-3 md:border md:min-w-[20%] md:border-gray-400 ">
+          <div
+            className={`mb-4  border rounded-md  md:rounded-none md:h-13  md:my-3 md:min-w-[20%]  ${
+              errors.outboundDate ? "border-red-600" : "md:border-gray-400"
+            }`}
+          >
             <label className="flex justify-around items-center h-[50px] bg-white  p-3 rounded-md relative">
               <button
                 onClick={handleCloseCalendar}
@@ -248,7 +294,11 @@ function Booking( ) {
                     </div>
                   </>
                 ) : (
-                  <span className="flex justify-between items-center w-full text-[#6E7583]">
+                  <span
+                    className={`flex justify-between items-center w-full text-[#6E7583] ${
+                      errors.outboundDate ? "text-red-500" : "text-[#6E7583]"
+                    }`}
+                  >
                     <p>Flight date</p>
                     <IoCalendarOutline size={22} />
                   </span>
@@ -256,16 +306,16 @@ function Booking( ) {
               </button>
             </label>
           </div>
-            <div >
+          <div>
             <Calendar
-                outboundDate={outboundDate}
-                returnDate={returnDate}
-                isCalendarVisible={isCalendarVisible}
-                setOutboundDate={setOutboundDate}
-                setReturnDate={setReturnDate}
-                setIsCalendarVisible={setIsCalendarVisible}
-              />
-            </div>
+              outboundDate={outboundDate}
+              returnDate={returnDate}
+              isCalendarVisible={isCalendarVisible}
+              setOutboundDate={setOutboundDate}
+              setReturnDate={setReturnDate}
+              setIsCalendarVisible={setIsCalendarVisible}
+            />
+          </div>
           {/*------------- Classes ----------------- */}
           <div className="mb-2  sm:border rounded-md md:rounded-none  md:h-[52px]   md:my-3 md:border md:w-[20%]  md:border-gray-400">
             <button
@@ -286,120 +336,122 @@ function Booking( ) {
             </button>
           </div>
           {isPassengerOpen && (
-              <div className=" absolute top-3 w-full h-full bg-white z-50 md:top-[73px] md:right-[50px] md:w-[400px] md:rounded-md md:h-[320px] md:drop-shadow-md">
-                <div className="md:hidden">
-                  <button
-                    className="absolute right-2 top-3"
-                    onClick={handlePassengerTab}
-                  >
-                    <RxCross1 size={25} />
-                  </button>
-                  <h3 className="p-2 text-[1.3em] workfontb">Passenger selection</h3>
-                </div>
-                <ul className="md:mt-3 md:mx-2">
-                  <li className="flex justify-between items-center">
-                    <span className="p-3 m-1">
-                      <p>Adults</p>
-                      <p className="text-xs text-gray-500">from 12 years</p>
-                    </span>
-                    <span className="flex items-center space-x-2">
-                      <button
-                        onClick={() => changeCount("adults", -1)}
-                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                        disabled={adults === 1}
-                      >
-                        <span className="text-lg font-semibold">-</span>
-                      </button>
-                      <span className="font-medium">{adults}</span>
-                      <button
-                        onClick={() => changeCount("adults", 1)}
-                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                        disabled={adults + children + babies === 8}
-                      >
-                        <span className="text-lg font-semibold">+</span>
-                      </button>
-                    </span>
-                  </li>
-                  <li className="flex justify-between items-center">
-                    <span className="p-3 m-1">
-                      <p>Children</p>
-                      <p className="text-xs text-gray-500">up to 12 years</p>
-                    </span>
-                    <span className="flex items-center space-x-2">
-                      <button
-                        onClick={() => changeCount("children", -1)}
-                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                        disabled={children === 0}
-                      >
-                        <span className="text-lg font-semibold">-</span>
-                      </button>
-                      <span className="font-medium">{children}</span>
-                      <button
-                        onClick={() => changeCount("children", 1)}
-                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                        disabled={adults + children + babies === 8}
-                      >
-                        <span className="text-lg font-semibold">+</span>
-                      </button>
-                    </span>
-                  </li>
-                  <li className="flex justify-between items-center">
-                    <span className="p-3 m-1">
-                      <p>Infants</p>
-                      <p className="text-xs text-gray-500">up to 2 years</p>
-                    </span>
-                    <span className="flex items-center space-x-2">
-                      <button
-                        onClick={() => changeCount("babies", -1)}
-                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                        disabled={babies === 0}
-                      >
-                        <span className="text-lg font-semibold">-</span>
-                      </button>
-                      <span className="font-medium">{babies}</span>
-                      <button
-                        onClick={() => changeCount("babies", 1)}
-                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                        disabled={adults + children + babies === 8}
-                      >
-                        <span className="text-lg font-semibold">+</span>
-                      </button>
-                    </span>
-                  </li>
-                </ul>
-                <div className="flex w-[90%] justify-center mx-auto m-2">
-                  <button
-                    onClick={() => handleClick("Economy")}
-                    className={`rounded-l-lg  px-4 py-2 border w-[50%] 
+            <div className=" absolute top-3 w-full h-full bg-white z-50 md:top-[73px] md:right-[50px] md:w-[400px] md:rounded-md md:h-[320px] md:drop-shadow-md">
+              <div className="md:hidden">
+                <button
+                  className="absolute right-2 top-3"
+                  onClick={handlePassengerTab}
+                >
+                  <RxCross1 size={25} />
+                </button>
+                <h3 className="p-2 text-[1.3em] workfontb">
+                  Passenger selection
+                </h3>
+              </div>
+              <ul className="md:mt-3 md:mx-2">
+                <li className="flex justify-between items-center">
+                  <span className="p-3 m-1">
+                    <p>Adults</p>
+                    <p className="text-xs text-gray-500">from 12 years</p>
+                  </span>
+                  <span className="flex items-center space-x-2">
+                    <button
+                      onClick={() => changeCount("adults", -1)}
+                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                      disabled={adults === 1}
+                    >
+                      <span className="text-lg font-semibold">-</span>
+                    </button>
+                    <span className="font-medium">{adults}</span>
+                    <button
+                      onClick={() => changeCount("adults", 1)}
+                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                      disabled={adults + children + babies === 8}
+                    >
+                      <span className="text-lg font-semibold">+</span>
+                    </button>
+                  </span>
+                </li>
+                <li className="flex justify-between items-center">
+                  <span className="p-3 m-1">
+                    <p>Children</p>
+                    <p className="text-xs text-gray-500">up to 12 years</p>
+                  </span>
+                  <span className="flex items-center space-x-2">
+                    <button
+                      onClick={() => changeCount("children", -1)}
+                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                      disabled={children === 0}
+                    >
+                      <span className="text-lg font-semibold">-</span>
+                    </button>
+                    <span className="font-medium">{children}</span>
+                    <button
+                      onClick={() => changeCount("children", 1)}
+                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                      disabled={adults + children + babies === 8}
+                    >
+                      <span className="text-lg font-semibold">+</span>
+                    </button>
+                  </span>
+                </li>
+                <li className="flex justify-between items-center">
+                  <span className="p-3 m-1">
+                    <p>Infants</p>
+                    <p className="text-xs text-gray-500">up to 2 years</p>
+                  </span>
+                  <span className="flex items-center space-x-2">
+                    <button
+                      onClick={() => changeCount("babies", -1)}
+                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                      disabled={babies === 0}
+                    >
+                      <span className="text-lg font-semibold">-</span>
+                    </button>
+                    <span className="font-medium">{babies}</span>
+                    <button
+                      onClick={() => changeCount("babies", 1)}
+                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                      disabled={adults + children + babies === 8}
+                    >
+                      <span className="text-lg font-semibold">+</span>
+                    </button>
+                  </span>
+                </li>
+              </ul>
+              <div className="flex w-[90%] justify-center mx-auto m-2">
+                <button
+                  onClick={() => handleClick("Economy")}
+                  className={`rounded-l-lg  px-4 py-2 border w-[50%] 
                             ${
                               selectedClass === "Economy"
                                 ? "bg-blue-100 text-blue-700 border-blue-500 "
                                 : "bg-gray-100 text-black"
                             }`}
-                  >
-                    Economy
-                  </button>
-                  <button
-                    onClick={() => handleClick("Business")}
-                    className={`rounded-r-lg  px-4 py-2 border w-[50%] 
+                >
+                  Economy
+                </button>
+                <button
+                  onClick={() => handleClick("Business")}
+                  className={`rounded-r-lg  px-4 py-2 border w-[50%] 
                             ${
                               selectedClass === "Business"
                                 ? "bg-blue-100 text-blue-700 border-blue-500"
                                 : "bg-gray-100 text-black"
                             }`}
-                  >
-                    Business
-                  </button>
-                </div>
+                >
+                  Business
+                </button>
               </div>
-            )}
+            </div>
+          )}
           <div className="mb-4   sm:border border-[#2C8DC7] rounded-md md:hidden  ">
             <button className="bg-white text-blue-900 w-full p-3 rounded-md flex items-center justify-center">
               + Add promo code
             </button>
           </div>
 
-          <div className="mb-4  md:hidden sm:text-black">
+          <div className="mb-4  md:hidden text-white sm:text-black">
             <label className="flex items-center">
               <input type="checkbox" className="mr-2" />
               Pay by Miles
@@ -407,8 +459,9 @@ function Booking( ) {
           </div>
 
           <div>
-            <button className="bg-[#37A6DB] w-full text-white py-3 rounded-md md:rounded-r-lg md:rounded-none md:px-3 md:h-[52px] md:bg-[#01357e] "
-            onClick={handleSubmit}
+            <button
+              className="bg-[#37A6DB] w-full text-white py-3 rounded-md md:rounded-r-lg md:rounded-none md:px-3 md:h-[52px] md:bg-[#01357e] "
+              onClick={handleSubmit}
             >
               <p className="md:hidden">Search</p>
               <p className="hidden md:block">
@@ -464,7 +517,7 @@ function Booking( ) {
             </h3>
             <button
               onClick={toggleSearchTab}
-              className="absolute right-2 top-3"
+              className="absolute right-6 top-3"
             >
               <RxCross1 size={25} />
             </button>
@@ -507,8 +560,6 @@ function Booking( ) {
           </button>
         </div>
       )}
-     
-      
     </div>
   );
 }

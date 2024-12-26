@@ -8,9 +8,9 @@ function SpecialOffer() {
     const { offers } = useContext(DATA);  
   return (
     <div>
-          <div className='  md:w-[80%] justify-center items-center mx-auto'>
+          <div className='  md:w-[80%] justify-center items-center mx-auto my-3'>
                 <div className='flex justify-between items-center'>
-                    <h3 className='text-[1.3em] p-2'>Special offers</h3>
+                    <h3 className='text-[1.8em]  p-3'>Special offers</h3>
                     <Link to={`/offers`}><button className='bg-gray-100 text-[#01357e] p-3 m-2 rounded-lg'>View All</button></Link>
                 </div>
                 <ul className=' sm:flex   justify-center items-center  '>

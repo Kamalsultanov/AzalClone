@@ -128,13 +128,16 @@
   font-weight: 700;
 }
 
+
 #headermain{
-  background-image: url('/Images/plane.jpg');
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat;
+  background-image: none;
+  background-color: #01357e !important;
 }
 
+#header1{
+  background-color: rgba(0, 0, 0, 0);  
+
+}
 
 @media only screen and (min-width: 430px) {
   
@@ -159,5 +162,12 @@
       font-weight: 700 !important;
   }
   
+}
+
+#headermain{
+  background-image: url('/Images/plane.jpg');
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;
 }
 

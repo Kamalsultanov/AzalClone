@@ -10,17 +10,16 @@ import { Link } from 'react-router-dom';
 
 
 function Header() {
+
+
   return (
     <>
-      <div className='bg-transparent relative h-[0px]  top-0 w-full  ' >
+      <div id='header1' className='bg-transparent   h-[0px]  top-0 w-full  ' >
         <div  className='flex items-center justify-between'>
             <div>
               <Link to={`/`}> <img src={Logo} alt="Logo" className='p-4' /></Link>      
             </div>
             <div className='flex items-center'>
-              <span className='p-2 bg-slate-100 bg-opacity-10 rounded-lg m-1'>
-                <BsCurrencyExchange size={20}  color='white' />
-              </span>
               <span className='p-2  bg-slate-100 bg-opacity-10 rounded-lg m-1'>
                 <CiGlobe color='white ' size={20} />
               </span>
@@ -33,7 +32,7 @@ function Header() {
           </div>
         </div>
 
-    </div>
+      </div>
     </>
   )
 }

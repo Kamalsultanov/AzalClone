@@ -7,7 +7,11 @@ import Booking from '../header/Booking';
 function Main() {
   return (
     <div>
-      <div id='headermain' className='h-[70vh] flex items-center'><Booking/></div>
+      <div id='headermain' className=''>
+        <div className='bg-[#01357e]  sm:bg-transparent h-[70vh] flex justify-center'>
+          <Booking />
+        </div>
+      </div>
       <div>
           <Slider />
         < SpecialOffer/>

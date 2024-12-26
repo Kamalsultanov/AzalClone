@@ -231,13 +231,13 @@ export const DataInfo = {
             to: 'IST',
             availableClasses: ['Economy', 'Business'],
             economy: {
-              budget: 500,
-              classic: 600,
-              plus: 700,
+              budget: 170,
+              classic: 330,
+              plus: 423,
             },
-            business: 1300,
+            business: 725,
             availableDays: [  'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-            flightNumber: ['J2152', 'J2153', 'J2155' ],
+            flightNumber: ['J2 152', 'J2 153', 'J2 155' ],
             airplaneModel: ['Boeing 777-300','Boeing 300','Airbus A319'],
             flightDuration: '3h 25m',
             flightTimes: [
@@ -251,13 +251,13 @@ export const DataInfo = {
             to: 'BAK',
             availableClasses: ['Economy', 'Business'],
             economy: {
-              budget: 500,
-              classic: 600,
-              plus: 700,
+              budget: 170,
+              classic: 330,
+              plus: 423,
             },
-            business: 1300,
+            business: 725,
             availableDays: [  'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-            flightNumber: ['J2152', 'J2153', 'J2155' ],
+            flightNumber: ['J2 152', 'J2 153', 'J2 155' ],
             airplaneModel: ['Boeing 777-300','Boeing 300','Airbus A319'],
             flightDuration: '3h 25m',
             flightTimes: [
@@ -271,13 +271,13 @@ export const DataInfo = {
             to: 'MOW',
             availableClasses: ['Economy', 'Business'],
             economy: {
-              budget: 500,
-              classic: 600,
-              plus: 700,
+              budget: 224,
+              classic: 325,
+              plus: 543,
             },
-            business: 1300,
+            business: 836,
             availableDays: [  'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-            flightNumber: ['J80', 'J123', 'J69' ],
+            flightNumber: ['J2 80', 'J2 123', 'J2 69' ],
             airplaneModel: ['Boeing 777-300','Boeing 300','Airbus A319'],
             flightDuration: '3h 25m',
             flightTimes: [
@@ -291,13 +291,13 @@ export const DataInfo = {
             to: 'BAK',
             availableClasses: ['Economy', 'Business'],
             economy: {
-              budget: 500,
-              classic: 600,
-              plus: 700,
+              budget: 224,
+              classic: 325,
+              plus: 543,
             },
-            business: 1300,
+            business: 836,
             availableDays: [  'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-            flightNumber: ['J80', 'J123', 'J69' ],
+            flightNumber: ['J2 85', 'J2 156', 'J2 69' ],
             airplaneModel: ['Boeing 777-300','Boeing 300','Airbus A319'],
             flightDuration: '3h 25m',
             flightTimes: [
@@ -337,7 +337,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J101', 'J102', 'J103'],
+            flightNumber: ['J2 101', 'J2 102', 'J2 103'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 30m',
             flightTimes: [
@@ -357,7 +357,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J201', 'J202', 'J203'],
+            flightNumber: ['J2 01', 'J2 02', 'J2 03'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 35m',
             flightTimes: [
@@ -377,7 +377,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J301', 'J302', 'J303'],
+            flightNumber: ['J2 551', 'J2 302', 'J2 303'],
             airplaneModel: ['Boeing 747', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 10m',
             flightTimes: [
@@ -397,7 +397,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J401', 'J402', 'J403'],
+            flightNumber: ['J2 401', 'J2 402', 'J2 403'],
             airplaneModel: ['Boeing 747', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 15m',
             flightTimes: [
@@ -418,7 +418,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J501', 'J502', 'J503'],
+            flightNumber: ['J2 501', 'J2 502', 'J2 503'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 50m',
             flightTimes: [
@@ -439,7 +439,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J601', 'J602', 'J603'],
+            flightNumber: ['J2 601', 'J2 602', 'J2 603'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 55m',
             flightTimes: [
@@ -460,7 +460,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J701', 'J702', 'J703'],
+            flightNumber: ['J2 701', 'J2 702', 'J2 703'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 5m',
             flightTimes: [
@@ -481,7 +481,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J801', 'J802', 'J803'],
+            flightNumber: ['J2 801', 'J2 802', 'J2 803'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 10m',
             flightTimes: [
@@ -502,7 +502,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J901', 'J902', 'J903'],
+            flightNumber: ['J2 901', 'J2 902', 'J2 903'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 25m',
             flightTimes: [
@@ -523,7 +523,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1001', 'J1002', 'J1003'],
+            flightNumber: ['J2 1001', 'J2 1002', 'J2 1003'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 30m',
             flightTimes: [
@@ -544,7 +544,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1101', 'J1102', 'J1103'],
+            flightNumber: ['J2 101', 'J2 1102', 'J2 1103'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 40m',
             flightTimes: [
@@ -565,7 +565,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1201', 'J1202', 'J1203'],
+            flightNumber: ['J2 1201', 'J2 1202', 'J2 1203'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 50m',
             flightTimes: [
@@ -584,7 +584,7 @@ export const DataInfo = {
             },
             business: 1250,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1301', 'J1302', 'J1303'],
+            flightNumber: ['J2 1301', 'J2 1302', 'J2 1303'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 55m',
             flightTimes: [
@@ -605,7 +605,7 @@ export const DataInfo = {
             },
             business: 1250,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1401', 'J1402', 'J1403'],
+            flightNumber: ['J2 1401', 'J2 1402', 'J2 1403'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 00m',
             flightTimes: [
@@ -626,7 +626,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1501', 'J1502', 'J1503'],
+            flightNumber: ['J2 1501', 'J2 1502', 'J2 1503'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 20m',
             flightTimes: [
@@ -647,7 +647,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1601', 'J1602', 'J1603'],
+            flightNumber: ['J2 1601', 'J2 1602', 'J2 1603'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 30m',
             flightTimes: [
@@ -668,7 +668,7 @@ export const DataInfo = {
             },
             business: 1350,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1701', 'J1702', 'J1703'],
+            flightNumber: ['J2 1701', 'J2 1702', 'J2 1703'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '3h 00m',
             flightTimes: [
@@ -689,7 +689,7 @@ export const DataInfo = {
             },
             business: 1350,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1801', 'J1802', 'J1803'],
+            flightNumber: ['J2 1801', 'J2 1802', 'J2 1803'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '3h 10m',
             flightTimes: [
@@ -710,7 +710,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J1901', 'J1902', 'J1903'],
+            flightNumber: ['J2 1901', 'J2 1902', 'J2 1903'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '4h 00m',
             flightTimes: [
@@ -731,7 +731,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2001', 'J2002', 'J2003'],
+            flightNumber: ['J2 001', 'J2 002', 'J2 003'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '4h 15m',
             flightTimes: [
@@ -752,7 +752,7 @@ export const DataInfo = {
             },
             business: 1500,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2101', 'J2102', 'J2103'],
+            flightNumber: ['J2 101', 'J2 102', 'J2 103'],
             airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
             flightDuration: '3h 45m',
             flightTimes: [
@@ -773,7 +773,7 @@ export const DataInfo = {
             },
             business: 1500,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2201', 'J2202', 'J2203'],
+            flightNumber: ['J2 201', 'J2 202', 'J2 203'],
             airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
             flightDuration: '3h 55m',
             flightTimes: [
@@ -794,7 +794,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2301', 'J2302', 'J2303'],
+            flightNumber: ['J2 301', 'J2 302', 'J2 303'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 50m',
             flightTimes: [
@@ -815,7 +815,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2401', 'J2402', 'J2403'],
+            flightNumber: ['J2 401', 'J2 402', 'J2 403'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 55m',
             flightTimes: [
@@ -836,7 +836,7 @@ export const DataInfo = {
             },
             business: 1600,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2501', 'J2502', 'J2503'],
+            flightNumber: ['J2 501', 'J2 502', 'J2 503'],
             airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
             flightDuration: '5h 00m',
             flightTimes: [
@@ -857,7 +857,7 @@ export const DataInfo = {
             },
             business: 1600,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2601', 'J2602', 'J2603'],
+            flightNumber: ['J2 601', 'J2 602', 'J2 603'],
             airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
             flightDuration: '5h 15m',
             flightTimes: [
@@ -878,7 +878,7 @@ export const DataInfo = {
             },
             business: 1500,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2701', 'J2702', 'J2703'],
+            flightNumber: ['J2 701', 'J2 702', 'J2 703'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '4h 30m',
             flightTimes: [
@@ -899,7 +899,7 @@ export const DataInfo = {
             },
             business: 1500,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2801', 'J2802', 'J2803'],
+            flightNumber: ['J2 801', 'J2 802', 'J2 803'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '4h 45m',
             flightTimes: [
@@ -918,7 +918,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J2901', 'J2902', 'J2903'],
+            flightNumber: ['J2 901', 'J2 902', 'J2 903'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 35m',
             flightTimes: [
@@ -939,7 +939,7 @@ export const DataInfo = {
             },
             business: 1400,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J3001', 'J3002', 'J3003'],
+            flightNumber: ['J2 001', 'J2 002', 'J2 003'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '2h 40m',
             flightTimes: [
@@ -960,7 +960,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J3101', 'J3102', 'J3103'],
+            flightNumber: ['J2 101', 'J2 102', 'J2 103'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 30m',
             flightTimes: [
@@ -981,7 +981,7 @@ export const DataInfo = {
             },
             business: 1300,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J3201', 'J3202', 'J3203'],
+            flightNumber: ['J2 201', 'J2 202', 'J2 203'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 30m',
             flightTimes: [
@@ -1002,7 +1002,7 @@ export const DataInfo = {
             },
             business: 1600,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J3301', 'J3302', 'J3303'],
+            flightNumber: ['J2 301', 'J2 302', 'J2 303'],
             airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
             flightDuration: '4h 10m',
             flightTimes: [
@@ -1023,7 +1023,7 @@ export const DataInfo = {
             },
             business: 1600,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J3401', 'J3402', 'J3403'],
+            flightNumber: ['J2 401', 'J2 3402', 'J2 3403'],
             airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
             flightDuration: '4h 15m',
             flightTimes: [
@@ -1044,7 +1044,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J3501', 'J3502', 'J3503'],
+            flightNumber: ['J2 3501', 'J2 3502', 'J2 3503'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 45m',
             flightTimes: [
@@ -1065,7 +1065,7 @@ export const DataInfo = {
             },
             business: 1200,
             availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            flightNumber: ['J3601', 'J3602', 'J3603'],
+            flightNumber: ['J2 3601', 'J2 3602', 'J2 3603'],
             airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
             flightDuration: '1h 55m',
             flightTimes: [
@@ -1085,7 +1085,7 @@ export const DataInfo = {
           },
           business: 2200,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J3701', 'J3702', 'J3703'],
+          flightNumber: ['J2 3701', 'J2 702', 'J2 703'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 737'],
           flightDuration: '4h 30m',
           flightTimes: [
@@ -1106,7 +1106,7 @@ export const DataInfo = {
           },
           business: 2200,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J3801', 'J3802', 'J3803'],
+          flightNumber: ['J2 801', 'J2 802', 'J2 803'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 737'],
           flightDuration: '4h 40m',
           flightTimes: [
@@ -1127,7 +1127,7 @@ export const DataInfo = {
           },
           business: 1200,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J3901', 'J3902', 'J3903'],
+          flightNumber: ['J2 901', 'J2 902', 'J2 903'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '3h 10m',
           flightTimes: [
@@ -1148,7 +1148,7 @@ export const DataInfo = {
           },
           business: 1200,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4001', 'J4002', 'J4003'],
+          flightNumber: ['J2 401', 'J2 402', 'J2 403'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '3h 20m',
           flightTimes: [
@@ -1169,7 +1169,7 @@ export const DataInfo = {
           },
           business: 1500,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4101', 'J4102', 'J4103'],
+          flightNumber: ['J2 151', 'J2 127', 'J2 183'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 737'],
           flightDuration: '3h 45m',
           flightTimes: [
@@ -1190,7 +1190,7 @@ export const DataInfo = {
           },
           business: 1500,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4201', 'J4202', 'J4203'],
+          flightNumber: ['J2 201', 'J2 202', 'J2 4203'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 737'],
           flightDuration: '3h 50m',
           flightTimes: [
@@ -1211,7 +1211,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4301', 'J4302', 'J4303'],
+          flightNumber: ['J2 301', 'J2 302', 'J2 373'],
           airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
           flightDuration: '4h 45m',
           flightTimes: [
@@ -1232,7 +1232,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4401', 'J4402', 'J4403'],
+          flightNumber: ['J2 401', 'J2 402', 'J2 03'],
           airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
           flightDuration: '4h 50m',
           flightTimes: [
@@ -1253,7 +1253,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4501', 'J4502', 'J4503'],
+          flightNumber: ['J2 501', 'J2 502', 'J2 503'],
           airplaneModel: ['Boeing 777', 'Airbus A350', 'Boeing 737'],
           flightDuration: '4h 15m',
           flightTimes: [
@@ -1274,7 +1274,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4601', 'J4602', 'J4603'],
+          flightNumber: ['J2 501', 'J2 802', 'J2 503'],
           airplaneModel: ['Boeing 777', 'Airbus A350', 'Boeing 737'],
           flightDuration: '4h 20m',
           flightTimes: [
@@ -1294,7 +1294,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4701', 'J4702', 'J4703'],
+          flightNumber: ['J2 751', 'J2 572', 'J2 453'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '4h 20m',
           flightTimes: [
@@ -1315,7 +1315,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4801', 'J4802', 'J4803'],
+          flightNumber: ['J2 851', 'J2 552', 'J2 563'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '4h 30m',
           flightTimes: [
@@ -1336,7 +1336,7 @@ export const DataInfo = {
           },
           business: 1400,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J4901', 'J4902', 'J4903'],
+          flightNumber: ['J2 561', 'J2 452', 'J2 563'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '3h 40m',
           flightTimes: [
@@ -1357,7 +1357,7 @@ export const DataInfo = {
           },
           business: 1400,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5001', 'J5002', 'J5003'],
+          flightNumber: ['J2 551', 'J2 562', 'J2 403'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '3h 50m',
           flightTimes: [
@@ -1378,7 +1378,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5101', 'J5102', 'J5103'],
+          flightNumber: ['J2 154', 'J2 562', 'J2 563'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '4h 45m',
           flightTimes: [
@@ -1399,7 +1399,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5201', 'J5202', 'J5203'],
+          flightNumber: ['J2 201', 'J2 5202', 'J2 5203'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '4h 50m',
           flightTimes: [
@@ -1420,7 +1420,7 @@ export const DataInfo = {
           },
           business: 1500,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5301', 'J5302', 'J5303'],
+          flightNumber: ['J2 301', 'J2 302', 'J2 303'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '3h 50m',
           flightTimes: [
@@ -1441,7 +1441,7 @@ export const DataInfo = {
           },
           business: 1500,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5401', 'J5402', 'J5403'],
+          flightNumber: ['J2 401', 'J2 402', 'J2 403'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '4h 00m',
           flightTimes: [
@@ -1462,7 +1462,7 @@ export const DataInfo = {
           },
           business: 1400,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5501', 'J5502', 'J5503'],
+          flightNumber: ['J2 501', 'J2 502', 'J5 503'],
           airplaneModel: ['Boeing 777', 'Airbus A350', 'Boeing 787'],
           flightDuration: '4h 10m',
           flightTimes: [
@@ -1483,7 +1483,7 @@ export const DataInfo = {
           },
           business: 1400,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5601', 'J5602', 'J5603'],
+          flightNumber: ['J2 601', 'J2 602', 'J2 603'],
           airplaneModel: ['Boeing 777', 'Airbus A350', 'Boeing 787'],
           flightDuration: '4h 15m',
           flightTimes: [
@@ -1503,7 +1503,7 @@ export const DataInfo = {
           },
           business: 1500,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5701', 'J5702', 'J5703'],
+          flightNumber: ['J2 701', 'J2 702', 'J2 703'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '4h 30m',
           flightTimes: [
@@ -1524,7 +1524,7 @@ export const DataInfo = {
           },
           business: 1500,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5801', 'J5802', 'J5803'],
+          flightNumber: ['J2 801', 'J2 802', 'J2 803'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 787'],
           flightDuration: '4h 35m',
           flightTimes: [
@@ -1545,7 +1545,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J5901', 'J5902', 'J5903'],
+          flightNumber: ['J2 901', 'J2 902', 'J2 903'],
           airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
           flightDuration: '5h 00m',
           flightTimes: [
@@ -1566,7 +1566,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6001', 'J6002', 'J6003'],
+          flightNumber: ['J2 601', 'J2 602', 'J2 603'],
           airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
           flightDuration: '5h 10m',
           flightTimes: [
@@ -1587,7 +1587,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6101', 'J6102', 'J6103'],
+          flightNumber: ['J2 611', 'J2 612', 'J2 613'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '4h 15m',
           flightTimes: [
@@ -1608,7 +1608,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6201', 'J6202', 'J6203'],
+          flightNumber: ['J2 621', 'J2 622', 'J2 623'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '4h 25m',
           flightTimes: [
@@ -1629,7 +1629,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6301', 'J6302', 'J6303'],
+          flightNumber: ['J2 631', 'J2 632', 'J2 633'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '5h 30m',
           flightTimes: [
@@ -1650,7 +1650,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6401', 'J6402', 'J6403'],
+          flightNumber: ['J2 641', 'J2 642', 'J2 643'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '5h 40m',
           flightTimes: [
@@ -1671,7 +1671,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6501', 'J6502', 'J6503'],
+          flightNumber: ['J2 651', 'J2 652', 'J2 653'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '4h 50m',
           flightTimes: [
@@ -1692,7 +1692,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6601', 'J6602', 'J6603'],
+          flightNumber: ['J2 661', 'J2 662', 'J2 663'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '5h 00m',
           flightTimes: [
@@ -1712,7 +1712,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6701', 'J6702', 'J6703'],
+          flightNumber: ['J2 671', 'J2 672', 'J2 673'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '5h 40m',
           flightTimes: [
@@ -1733,7 +1733,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6801', 'J6802', 'J6803'],
+          flightNumber: ['J2 681', 'J2 682', 'J2 683'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '5h 45m',
           flightTimes: [
@@ -1754,7 +1754,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J6901', 'J6902', 'J6903'],
+          flightNumber: ['J2 690', 'J2 692', 'J2 63'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '4h 50m',
           flightTimes: [
@@ -1775,7 +1775,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7001', 'J7002', 'J7003'],
+          flightNumber: ['J2 701', 'J2 702', 'J2 703'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '5h 00m',
           flightTimes: [
@@ -1796,7 +1796,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7101', 'J7102', 'J7103'],
+          flightNumber: ['J2 101', 'J2 102', 'J2 103'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '4h 10m',
           flightTimes: [
@@ -1817,7 +1817,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7201', 'J7202', 'J7203'],
+          flightNumber: ['J2 701', 'J2 722', 'J2 723'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '4h 20m',
           flightTimes: [
@@ -1838,7 +1838,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7301', 'J7302', 'J7303'],
+          flightNumber: ['J2 701', 'J2 702', 'J2 703'],
           airplaneModel: ['Boeing 777', 'Airbus A320', 'Boeing 787'],
           flightDuration: '5h 10m',
           flightTimes: [
@@ -1859,7 +1859,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7401', 'J7402', 'J7403'],
+          flightNumber: ['J2 701', 'J2 742', 'J2 733'],
           airplaneModel: ['Boeing 777', 'Airbus A320', 'Boeing 787'],
           flightDuration: '5h 20m',
           flightTimes: [
@@ -1879,7 +1879,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7501', 'J7502', 'J7503'],
+          flightNumber: ['J2 751', 'J2 752', 'J2 703'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '3h 50m',
           flightTimes: [
@@ -1900,7 +1900,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7601', 'J7602', 'J7603'],
+          flightNumber: ['J2 761', 'J2 762', 'J2 763'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '3h 55m',
           flightTimes: [
@@ -1921,7 +1921,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7701', 'J7702', 'J7703'],
+          flightNumber: ['J2 771', 'J2 772', 'J2 773'],
           airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
           flightDuration: '4h 10m',
           flightTimes: [
@@ -1942,7 +1942,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7801', 'J7802', 'J7803'],
+          flightNumber: ['J2 781', 'J2 782', 'J2 783'],
           airplaneModel: ['Boeing 787', 'Airbus A350', 'Boeing 777'],
           flightDuration: '4h 20m',
           flightTimes: [
@@ -1963,7 +1963,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J7901', 'J7902', 'J7903'],
+          flightNumber: ['J2 791', 'J2 792', 'J2 793'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '3h 40m',
           flightTimes: [
@@ -1984,7 +1984,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8001', 'J8002', 'J8003'],
+          flightNumber: ['J2 801', 'J2 802', 'J2 803'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '3h 45m',
           flightTimes: [
@@ -2005,7 +2005,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8101', 'J8102', 'J8103'],
+          flightNumber: ['J2 801', 'J2 802', 'J2 810'],
           airplaneModel: ['Boeing 777', 'Airbus A320', 'Boeing 787'],
           flightDuration: '4h 00m',
           flightTimes: [
@@ -2026,7 +2026,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8201', 'J8202', 'J8203'],
+          flightNumber: ['J2 801', 'J2 822', 'J2 823'],
           airplaneModel: ['Boeing 777', 'Airbus A320', 'Boeing 787'],
           flightDuration: '4h 10m',
           flightTimes: [
@@ -2046,7 +2046,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8301', 'J8302', 'J8303'],
+          flightNumber: ['J2 801', 'J2 832', 'J2 803'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '3h 45m',
           flightTimes: [
@@ -2067,7 +2067,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8401', 'J8402', 'J8403'],
+          flightNumber: ['J2 841', 'J2 842', 'J2 843'],
           airplaneModel: ['Boeing 787', 'Airbus A320', 'Boeing 777'],
           flightDuration: '3h 50m',
           flightTimes: [
@@ -2088,7 +2088,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8501', 'J8502', 'J8503'],
+          flightNumber: ['J2 801', 'J2 802', 'J2 503'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '4h 10m',
           flightTimes: [
@@ -2108,7 +2108,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8601', 'J8602', 'J8603'],
+          flightNumber: ['J2 601', 'J2 602', 'J2 603'],
           airplaneModel: ['Boeing 787', 'Airbus A330', 'Boeing 777'],
           flightDuration: '4h 15m',
           flightTimes: [
@@ -2126,7 +2126,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J8901', 'J8902', 'J8903'],
+          flightNumber: ['J2 901', 'J2 402', 'J2 803'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
           flightDuration: '2h 30m',
           flightTimes: [
@@ -2147,7 +2147,7 @@ export const DataInfo = {
           },
           business: 1600,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J9001', 'J9002', 'J9003'],
+          flightNumber: ['J2 501', 'J2 002', 'J2 003'],
           airplaneModel: ['Boeing 737', 'Airbus A320', 'Boeing 777'],
           flightDuration: '2h 35m',
           flightTimes: [
@@ -2168,7 +2168,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J9101', 'J9102', 'J9103'],
+          flightNumber: ['J2 101', 'J2 102', 'J2 103'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '4h 00m',
           flightTimes: [
@@ -2189,7 +2189,7 @@ export const DataInfo = {
           },
           business: 1800,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J9201', 'J9202', 'J9203'],
+          flightNumber: ['J2 201', 'J2 202', 'J2 203'],
           airplaneModel: ['Boeing 777', 'Airbus A330', 'Boeing 787'],
           flightDuration: '4h 10m',
           flightTimes: [
@@ -2210,7 +2210,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J9301', 'J9302', 'J9303'],
+          flightNumber: ['J2 301', 'J2 302', 'J2 303'],
           airplaneModel: ['Boeing 777', 'Airbus A320', 'Boeing 787'],
           flightDuration: '3h 15m',
           flightTimes: [
@@ -2231,7 +2231,7 @@ export const DataInfo = {
           },
           business: 1700,
           availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          flightNumber: ['J9401', 'J9402', 'J9403'],
+          flightNumber: ['J2 401', 'J2 902', 'J2 940'],
           airplaneModel: ['Boeing 777', 'Airbus A320', 'Boeing 787'],
           flightDuration: '3h 20m',
           flightTimes: [

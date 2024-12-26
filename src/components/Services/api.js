@@ -48,6 +48,10 @@ async function getFrom() {
       });
     }
     
+    async function getFlights() {
+      return new Promise((resolve) => {
+        resolve(DataInfo.flights); 
+      });
+    }
 
-
-export { getFrom, getOffers };
+export { getFrom, getOffers, getFlights };

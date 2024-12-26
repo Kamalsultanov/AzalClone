@@ -8,7 +8,7 @@ function Layout() {
 
     const location = useLocation();
     const hideFooter = location.pathname === "/book";
-    
+        
     return (
         <>
             <Header />
