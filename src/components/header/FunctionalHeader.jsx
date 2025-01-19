@@ -1,29 +1,41 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState,useContext, useEffect   } from "react";
 import Logo from "/Images/logo.svg";
 import DarkLogo from "/Images/darklogo.svg";
-import { BsCurrencyExchange } from "react-icons/bs";
 import { CiGlobe } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
 import { DATA } from "../../Context/DataContext";
+import { useNavigate } from 'react-router-dom';
 
 import { HiBars3 } from "react-icons/hi2";
-import Booking from "./Booking";
 import { Link } from "react-router-dom";
 import { RxCross1 } from "react-icons/rx";
+
 
 function FunctionalHeader() {
   const [show, setShow] = useState(false);
   const [selectedlist, setSelectedList] = useState(false);
   const [subItems, setSubItems] = useState([]);
+  const [languagetab, setLanguagetab] = useState(false);
+  const [language, setLanguage] = useState("");
 
-  const { menuItems } = useContext(DATA);
+    const { menuItems  } = useContext(DATA);
+    const navigate = useNavigate(); 
 
-  const handleClick = (item) => {
-    setSelectedList(item);
-    const selectedMenu = menuItems.find((menuItem) => menuItem.title === item);
-    setSubItems(selectedMenu?.subItems || []);
+  
+    const handleClick = (item) => {
+      setSelectedList(item);
+      const selectedMenu = menuItems.find((menuItem) => menuItem.title === item);
+      setSubItems(selectedMenu?.subItems || []);
   };
 
+  useEffect(() => {
+    if (menuItems?.length > 0) {
+      const firstItem = menuItems[0].title;
+      setSelectedList(firstItem);
+      setSubItems(menuItems[0].subItems || []);
+    }
+  }, [menuItems]);
+  
   useEffect(() => {
     if (show) {
       document.body.style.overflow = "hidden";
@@ -102,39 +114,40 @@ function FunctionalHeader() {
           >
             <div className="md:flex  md:w-[90%]  mx-auto mt-[60px] md:justify-around h-[80%] overflow-y-auto specialscrollbar">
               <ul className="w-full  md:w-[50%] mb-[40px]">
-                {menuItems.map((menuItem, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleClick(menuItem.title)}
-                    className={`text-[1.3em] md:text-[2em] md:border-r md:border-[#96989a] cursor-pointer flex ml-1 items-center ${
-                      selectedlist === menuItem.title
-                        ? "text-[#40b7de]"
-                        : "text-[#01357e]"
-                    }`}
-                  >
-                    <span
-                      className={` h-[1.6px] bg-[#40b7de] transition-all mr-1 ${
-                        selectedlist === menuItem.title
-                          ? "w-[25px]"
-                          : "w-[0px] "
-                      }`}
-                    ></span>
-                    {menuItem.title}
-                  </li>
-                ))}
-              </ul>
-              <ul
-                id="subitems"
-                className="gap-2 flex flex-col m-3  text-[1em]  "
-              >
-                {subItems.map((subItem, index) => (
-                  <li
-                    key={index}
-                    className="text-[1.2em] text-[#6e7583] hover:text-[#40b7de] cursor-pointer transition-all"
-                  >
-                    {subItem}
-                  </li>
-                ))}
+                 {menuItems.map((menuItem, index) => (
+                                <li
+                                  key={index}
+                                  onClick={() => handleClick(menuItem.title)}
+                                  className={`text-[1.3em] md:text-[2em] md:border-r md:border-[#96989a] cursor-pointer flex ml-1 items-center ${
+                                    selectedlist === menuItem.title
+                                      ? "text-[#40b7de]"
+                                      : "text-[#01357e]"
+                                  }`}
+                                >
+                                  <span
+                                    className={` h-[1.6px] bg-[#40b7de] transition-all mr-1 ${
+                                      selectedlist === menuItem.title ? "w-[25px]" : "w-[0px] "
+                                    }`}
+                                  ></span>
+                                  {menuItem.title}
+                                </li>
+                              ))}
+                              </ul>
+                              <ul id="subitems" className="gap-2 flex flex-col m-3  text-[1em]  ">
+                              {subItems.map((subItem, index) => (
+                                <li
+                                  key={index}
+                                  className="text-[1.2em] text-[#6e7583] hover:text-[#40b7de] cursor-pointer transition-all"
+                                >
+                                  <Link
+                                    to={`/${selectedlist.toLowerCase().replace(/\s+/g, '-')}/${subItem.replace(/\s+/g, '-')}`}
+                                    className="w-full"
+                                    onClick={() => setShow(false)}
+                                  >
+                                    {subItem}
+                                  </Link>
+                                </li>
+                              ))}
               </ul>
             </div>
           </div>
