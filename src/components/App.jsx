@@ -3,7 +3,7 @@ import Main from "./main/Main";
 import Footer from "./footer/Footer";
 import FunctionalLayout from "../Layout/FunctionalLayout";
 import { Route, Routes, } from "react-router-dom";
-import Offers from "./main/Offers/Offers";
+import Offers from "./main/offers/Offers";
 import React, { useContext, useEffect, useState } from "react";
 import OfferDetailPage from "./main/offers/OfferDetailPage";
 import Reservation from "./reservation/Reservation";
