@@ -39,7 +39,7 @@ function CalendarComponent({
   return (
     <>
       {isCalendarVisible && (
-        <div className="w-full h-[100vh] bg-white z-50 overflow-y-hidden absolute top-0 right-0 md:top-[73px] md:right-[180px] md:w-[450px] md:h-[500px] md:drop-shadow-md  ">
+        <div className="w-full h-[100vh] bg-white z-40 overflow-y-hidden absolute top-0 right-0 md:top-[73px] md:right-[180px] md:w-[450px] md:h-[500px] md:drop-shadow-md  ">
             <div className="md:hidden">
             <button
               onClick={handleCloseCalendar}

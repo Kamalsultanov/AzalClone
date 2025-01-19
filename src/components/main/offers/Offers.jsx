@@ -12,7 +12,6 @@ function Offers() {
 
   return (
     <div className='w-full md:w-[70%] mx-auto'>
-        <Breadcrumb/>
         <h1 className='text-[#01357e] text-[2em] p-3 border-b border-[#afdae4] m-4 font-semibold'>Offers</h1>
       <ul>
         {offers.map(item => (

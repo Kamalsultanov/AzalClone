@@ -14,21 +14,22 @@ import { IoIosArrowDown } from "react-icons/io";
 
 import AllDirections from "./AllDirections";
 import Calendar from "./CalendarComponent";
+import { LoadingContext } from "../loading/LoadingContext";
 
 function Booking() {
   const { from } = useContext(DATA);
   const navigate = useNavigate();
-
+  
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [focusedInput, setFocusedInput] = useState("");
-
+    const [allDirectionTab, setAllDirectionTab] = useState(false);
+  
   const [outboundDate, setOutboundDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
-  const [openTab, setOpenTab] = useState(false);
-  const [allDirectionTab, setAllDirectionTab] = useState(false);
+  const [openTab, setOpenTab] = useState(null);
 
   const [fromAirportCode, setFromAirportCode] = useState("");
   const [toAirportCode, setToAirportCode] = useState("");
@@ -38,12 +39,12 @@ function Booking() {
   const [babies, setBabies] = useState(0);
   const [selectedClass, setSelectedClass] = useState("Economy");
   const [isPassengerOpen, setPassengerOpen] = useState(false);
+  const { setLoading } = useContext(LoadingContext);
 
-  const handleCloseCalendar = () => {
-    setIsCalendarVisible(!isCalendarVisible);
-  };
 
   useEffect(() => {
+
+
     const handleScroll = () => {
       document.body.style.overflow =
         isCalendarVisible && !window.matchMedia("(min-width: 710px)").matches
@@ -58,10 +59,15 @@ function Booking() {
     };
   }, [isCalendarVisible]);
 
-  // Close the Tab
   const toggleSearchTab = () => {
-    setOpenTab(!openTab);
-    setAllDirectionTab(false);
+    setOpenTab((item) => {
+      if (!item) {
+        setIsCalendarVisible(false);
+        setPassengerOpen(false);  
+      }
+      return !item; 
+    });
+    setAllDirectionTab(false); 
   };
 
   const handleDirections = () => {
@@ -130,7 +136,12 @@ function Booking() {
       selectedClass,
     };
 
-    navigate("/book", { state: { ...bookingDetails, refresh: Date.now() } });
+    setLoading(true);
+
+    setTimeout(() => {
+      navigate("/book", { state: { ...bookingDetails} });
+      setLoading(false); 
+    }, 600); 
 
   };
   // -------------------------- Airports Swap --------------
@@ -146,9 +157,6 @@ function Booking() {
 
   const handleClick = (className) => {
     setSelectedClass(className);
-  };
-  const handlePassengerTab = () => {
-    setPassengerOpen((prevState) => !prevState);
   };
 
   const changeCount = (type, delta) => {
@@ -174,9 +182,23 @@ function Booking() {
     }
   }, [isPassengerOpen]);
 
+
+  const handleCloseCalendar = () => {
+    setIsCalendarVisible((item) => {
+      if (!item) setPassengerOpen(false); 
+      return !item;
+    });
+  };
+  
+  const handlePassengerTab = () => {
+    setPassengerOpen((item) => {
+      if (!item) setIsCalendarVisible(false); 
+      return !item;
+    });
+  };
   return (
     <div className=" w-full  content-center sm:bg-transparent">
-      <div className="   my-3  rounded-md  p-2  sm:bg-white md:w-[80%]  mt-10 mx-auto">
+      <div className="   my-3 sm:my-0  rounded-md  p-2  sm:bg-white md:w-[80%] mx-auto">
         <div className="   w-full    md:flex  md:items-center  md:relative ">
           {/*     ----------------------------------------Location----------------------------------*/}
           <div
@@ -317,7 +339,7 @@ function Booking() {
             />
           </div>
           {/*------------- Classes ----------------- */}
-          <div className="mb-2  sm:border rounded-md md:rounded-none  md:h-[52px]   md:my-3 md:border md:w-[20%]  md:border-gray-400">
+          <div className="mb-2  sm:border rounded-md md:rounded-none  md:h-[52px]   md:my-3 md:border md:w-[30%]  md:border-gray-400 md:relative">
             <button
               className="bg-white text-black pt-4 pb-2 px-3 w-full rounded-lg relative flex justify-between items-center "
               onClick={handlePassengerTab}
@@ -334,117 +356,119 @@ function Booking() {
               </p>
               <IoIosArrowDown size={22} className="flex justify-end" />
             </button>
+              {isPassengerOpen && (
+              <div className=" fixed md:absolute top-0  right-0   w-full h-full bg-white z-40 
+              md:top-[48px] md:right-[-30px]  md:w-[330px] md:rounded-md md:h-[320px] md:drop-shadow-lg">
+                <div className="md:hidden">
+                  <button
+                    className="absolute right-2 top-3"
+                    onClick={handlePassengerTab}
+                  >
+                    <RxCross1 size={25} />
+                  </button>
+                  <h3 className="p-2 text-[1.3em] workfontb">
+                    Passenger selection
+                  </h3>
+                </div>
+                <ul className="md:mt-3 md:mx-2">
+                  <li className="flex justify-between items-center">
+                    <span className="p-3 m-1">
+                      <p>Adults</p>
+                      <p className="text-xs text-gray-500">from 12 years</p>
+                    </span>
+                    <span className="flex items-center space-x-2">
+                      <button
+                        onClick={() => changeCount("adults", -1)}
+                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                        disabled={adults === 1}
+                      >
+                        <span className="text-lg font-semibold">-</span>
+                      </button>
+                      <span className="font-medium">{adults}</span>
+                      <button
+                        onClick={() => changeCount("adults", 1)}
+                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                        disabled={adults + children + babies === 8}
+                      >
+                        <span className="text-lg font-semibold">+</span>
+                      </button>
+                    </span>
+                  </li>
+                  <li className="flex justify-between items-center">
+                    <span className="p-3 m-1">
+                      <p>Children</p>
+                      <p className="text-xs text-gray-500">up to 12 years</p>
+                    </span>
+                    <span className="flex items-center space-x-2">
+                      <button
+                        onClick={() => changeCount("children", -1)}
+                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                        disabled={children === 0}
+                      >
+                        <span className="text-lg font-semibold">-</span>
+                      </button>
+                      <span className="font-medium">{children}</span>
+                      <button
+                        onClick={() => changeCount("children", 1)}
+                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                        disabled={adults + children + babies === 8}
+                      >
+                        <span className="text-lg font-semibold">+</span>
+                      </button>
+                    </span>
+                  </li>
+                  <li className="flex justify-between items-center">
+                    <span className="p-3 m-1">
+                      <p>Infants</p>
+                      <p className="text-xs text-gray-500">up to 2 years</p>
+                    </span>
+                    <span className="flex items-center space-x-2">
+                      <button
+                        onClick={() => changeCount("babies", -1)}
+                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                        disabled={babies === 0}
+                      >
+                        <span className="text-lg font-semibold">-</span>
+                      </button>
+                      <span className="font-medium">{babies}</span>
+                      <button
+                        onClick={() => changeCount("babies", 1)}
+                        className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
+                        disabled={adults + children + babies === 8}
+                      >
+                        <span className="text-lg font-semibold">+</span>
+                      </button>
+                    </span>
+                  </li>
+                </ul>
+                <div className="flex w-[90%] justify-center mx-auto m-2">
+                  <button
+                    onClick={() => handleClick("Economy")}
+                    className={`rounded-l-lg  px-4 py-2 border w-[50%] 
+                              ${
+                                selectedClass === "Economy"
+                                  ? "bg-blue-100 text-blue-700 border-blue-500 "
+                                  : "bg-gray-100 text-black"
+                              }`}
+                  >
+                    Economy
+                  </button>
+                  <button
+                    onClick={() => handleClick("Business")}
+                    className={`rounded-r-lg  px-4 py-2 border w-[50%] 
+                              ${
+                                selectedClass === "Business"
+                                  ? "bg-blue-100 text-blue-700 border-blue-500"
+                                  : "bg-gray-100 text-black"
+                              }`}
+                  >
+                    Business
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
-          {isPassengerOpen && (
-            <div className=" absolute top-3 w-full h-full bg-white z-50 md:top-[73px] md:right-[50px] md:w-[400px] md:rounded-md md:h-[320px] md:drop-shadow-md">
-              <div className="md:hidden">
-                <button
-                  className="absolute right-2 top-3"
-                  onClick={handlePassengerTab}
-                >
-                  <RxCross1 size={25} />
-                </button>
-                <h3 className="p-2 text-[1.3em] workfontb">
-                  Passenger selection
-                </h3>
-              </div>
-              <ul className="md:mt-3 md:mx-2">
-                <li className="flex justify-between items-center">
-                  <span className="p-3 m-1">
-                    <p>Adults</p>
-                    <p className="text-xs text-gray-500">from 12 years</p>
-                  </span>
-                  <span className="flex items-center space-x-2">
-                    <button
-                      onClick={() => changeCount("adults", -1)}
-                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                      disabled={adults === 1}
-                    >
-                      <span className="text-lg font-semibold">-</span>
-                    </button>
-                    <span className="font-medium">{adults}</span>
-                    <button
-                      onClick={() => changeCount("adults", 1)}
-                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                      disabled={adults + children + babies === 8}
-                    >
-                      <span className="text-lg font-semibold">+</span>
-                    </button>
-                  </span>
-                </li>
-                <li className="flex justify-between items-center">
-                  <span className="p-3 m-1">
-                    <p>Children</p>
-                    <p className="text-xs text-gray-500">up to 12 years</p>
-                  </span>
-                  <span className="flex items-center space-x-2">
-                    <button
-                      onClick={() => changeCount("children", -1)}
-                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                      disabled={children === 0}
-                    >
-                      <span className="text-lg font-semibold">-</span>
-                    </button>
-                    <span className="font-medium">{children}</span>
-                    <button
-                      onClick={() => changeCount("children", 1)}
-                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                      disabled={adults + children + babies === 8}
-                    >
-                      <span className="text-lg font-semibold">+</span>
-                    </button>
-                  </span>
-                </li>
-                <li className="flex justify-between items-center">
-                  <span className="p-3 m-1">
-                    <p>Infants</p>
-                    <p className="text-xs text-gray-500">up to 2 years</p>
-                  </span>
-                  <span className="flex items-center space-x-2">
-                    <button
-                      onClick={() => changeCount("babies", -1)}
-                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                      disabled={babies === 0}
-                    >
-                      <span className="text-lg font-semibold">-</span>
-                    </button>
-                    <span className="font-medium">{babies}</span>
-                    <button
-                      onClick={() => changeCount("babies", 1)}
-                      className="rounded-full p-2 bg-gray-200 hover:bg-gray-300 w-8 h-8 flex items-center justify-center"
-                      disabled={adults + children + babies === 8}
-                    >
-                      <span className="text-lg font-semibold">+</span>
-                    </button>
-                  </span>
-                </li>
-              </ul>
-              <div className="flex w-[90%] justify-center mx-auto m-2">
-                <button
-                  onClick={() => handleClick("Economy")}
-                  className={`rounded-l-lg  px-4 py-2 border w-[50%] 
-                            ${
-                              selectedClass === "Economy"
-                                ? "bg-blue-100 text-blue-700 border-blue-500 "
-                                : "bg-gray-100 text-black"
-                            }`}
-                >
-                  Economy
-                </button>
-                <button
-                  onClick={() => handleClick("Business")}
-                  className={`rounded-r-lg  px-4 py-2 border w-[50%] 
-                            ${
-                              selectedClass === "Business"
-                                ? "bg-blue-100 text-blue-700 border-blue-500"
-                                : "bg-gray-100 text-black"
-                            }`}
-                >
-                  Business
-                </button>
-              </div>
-            </div>
-          )}
+         
           <div className="mb-4   sm:border border-[#2C8DC7] rounded-md md:hidden  ">
             <button className="bg-white text-blue-900 w-full p-3 rounded-md flex items-center justify-center">
               + Add promo code
@@ -507,58 +531,21 @@ function Booking() {
         </div>
       </div>
       {openTab && (
-        <div
-          id="fromcountries"
-          className="w-full h-full absolute top-0  bg-white z-50  overflow-hidden"
-        >
-          <div>
-            <h3 className="font-bold m-2 text-[1.4em] text-[#333539]">
-              Choose direction
-            </h3>
-            <button
-              onClick={toggleSearchTab}
-              className="absolute right-6 top-3"
-            >
-              <RxCross1 size={25} />
-            </button>
-          </div>
-          <div className=" w-[90%] mx-auto relative  ">
-            <div>
-              {allDirectionTab ? (
-                <AllDirections onCountryClick={handleCountryClick} />
-              ) : (
-                <Locations onCountryClick={handleCountryClick} />
-              )}
-            </div>
-          </div>
-          <button
-            onClick={() => handleDirections()}
-            className={`flex w-[90%] mx-auto items-center py-3 my-3 hover:bg-gray-100 ${
-              allDirectionTab ? "hidden" : ""
-            }`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="text-blue-500 ml-2 "
-              width={18}
-              height={18}
-              fill="#2C8DC7"
-              viewBox="1.8 1.66 16.41 16.26"
-            >
-              <path
-                d="M9.988 1.656a.834.834 0 0 0-.654.333L6.703 4.62A.833.833 0 1 0 
-              7.88 5.8l1.286-1.286v6.299L3.86 14.45l.31-1.547a.834.834 0 1 0-1.635-.326l-.723 3.62a.834.834 0 0 0
-              .653.981l3.62.723a.832.832 0 0 0 .869-1.282.834.834 0 0 0-.541-.352l-1.747-.349L9.99 12.27l5.34 3.649-1.742.348a.835.835 0 1 0 .327
-              1.634l3.62-.723a.833.833 0 0 0 .654-.98l-.724-3.621a.834.834 0 1 0-1.634.326l.31 1.552-5.306-3.627V4.513l1.285 1.286a.833.833
-              0 1 0 1.179-1.179l-2.634-2.634a.834.834 0 0 0-.676-.33z"
-                fill="currentColor"
-              ></path>
-            </svg>
-            <span className="text-[#2C8DC7] mx-2 workfontb">
-              All Directions
-            </span>
-          </button>
-        </div>
+        <Locations
+        onCountryClick={handleCountryClick}
+        toggleSearchTab={toggleSearchTab}
+        inputValue={focusedInput === "from" ? fromSearch : toSearch}
+        setInputValue={(value) =>
+          focusedInput === "from" ? setFromSearch(value) : setToSearch(value)
+        }
+        focusedInput={focusedInput}
+        setFocusedInput={setFocusedInput}
+        allDirectionTab={allDirectionTab}
+          setAllDirectionTab={setAllDirectionTab}
+          fromAirportCode={fromAirportCode} 
+          toAirportCode={toAirportCode} 
+      />
+      
       )}
     </div>
   );

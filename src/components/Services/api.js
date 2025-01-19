@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext  } from 'react';
 
 import axios from "axios";
 import { DataInfo } from '../../../data/dataInfo.js';
+import { LoadingContext } from '../loading/LoadingContext.jsx';
 
 let cachedCities = null;
 
 
+
 async function getFrom() {
+    
       
       if (cachedCities) {
           return cachedCities;
@@ -39,7 +42,7 @@ async function getFrom() {
         return cities;
 
       } catch (error) {
-        console.error('Error fetching country data:', error);
+        null
       }
     }
     async function getOffers() {
@@ -53,5 +56,20 @@ async function getFrom() {
         resolve(DataInfo.flights); 
       });
     }
+    async function getMenuItems() {
+      return new Promise((resolve) => {
+        resolve(DataInfo.menuItems); 
+      });
+    }
+    async function getServices() {
+      return new Promise((resolve) => {
+        resolve(DataInfo.services); 
+      });
+    }
+    async function getExperience() {
+      return new Promise((resolve) => {
+        resolve(DataInfo.experience); 
+      });
+    }
 
-export { getFrom, getOffers, getFlights };
+export { getFrom, getOffers, getFlights, getMenuItems, getServices, getExperience};

@@ -15,11 +15,11 @@ export const DataInfo = {
             <br/>
             <p>The discount applies to the ticket fare on regular international flights and does not cover taxes and fees.
              The offer does not apply to codeshare flights. The number of discounted tickets is limited. Peak periods are excluded.</p>`,
-            image: "Images/offers/offer1.jpg",
+            image: "Images/offers/offer1.webp",
             publishDate: "12.02.24",
         },
         {
-            id: '25-Discount-for-Students!',
+            id: '25%-Discount-for-Students!',
             title: '25% Discount for Students!',
             shortdescription: `Reconnect, Celebrate, and Save. 25% Student Discount on AZAL Flights!`,
             description: `
@@ -45,26 +45,12 @@ export const DataInfo = {
             <br/>
 
             <p>Don’t miss out on this opportunity to save while you study in Türkiye!</p>`,
-            image: "Images/offers/offer2.png",
+            image: "Images/offers/offer2.webp",
             publishDate: "11.16.24",
         },
+      
         {
-            id: '20% discount on "Baku City Tour" bus ride for AZAL passengers!',
-            title: '20% discount on "Baku City Tour" bus ride for AZAL passengers!',
-            shortdescription: `Till December 29, travelers arriving in Baku can present their AZAL boarding pass and receive a 20% discount on Baku City Tour Bus tickets within 48 hours after their arrival to Azerbaijan`,
-            description: `
-            <p>Azerbaijan Airlines (AZAL) and Azerbaijan Tourism Board (ATB) have announced a new joint program
-             to enhance the travel experience for visitors of Baku. Till December 29, travelers arriving in Baku can present their
-             AZAL boarding pass and receive a 20% discount on Baku City Tour Bus tickets within 48 hours after their arrival to Azerbaijan.</p>
-            <br/>
-            <p>For more detailed information and bus schedule, please follow the link:</p>
-            <br/>
-            <a href="https://azerbaijan.travel/hop-on-hop-off">https://azerbaijan.travel/hop-on-hop-off</a>`,
-            image: "Images/offers/offer3.jpg",
-            publishDate: "10.21.24",
-        },
-        {
-            id: 'AZAL Miles program has been updated!',
+            id: 'AZAL-Miles-program-has-been-updated!',
             title: 'AZAL Miles program has been updated!',
             shortdescription: `A new era of travel begins with AZAL Miles!`,
             description: `
@@ -74,14 +60,15 @@ export const DataInfo = {
              Take the first step towards your next journey by joining the loyalty program filled with unique benefits today.</p>
 
             <p>For more information and to join the program, click here:<a href="https://www.azal.az/en/azal-miles/discovery/program-content/"> https://www.azal.az/en/azal-miles/discovery/program-content/ </a></p>`,
-            image: "Images/offers/offer4.png",
+            image: "Images/offers/offer4.webp",
             publishDate: "04.09.2024",
         },
 
     ],
     services: [
         {
-            id: ' Premium-Economy',
+            id: 'Premium-Economy',
+            image: 'Images/servicesimages/servicespremium.webp',
             title: 'Premium Economy',
             shortdescription: `Wherever you are travelling to, Azerbaijan Airlines Premium Economy Class will allow you 
                             to feel more comfortable and free throughout your flight.`,
@@ -102,10 +89,10 @@ export const DataInfo = {
             <br/>
             <p>On long-haul flights passengers are offered a travel kit with personal hygiene items, cosmetic products and accessories of high quality are offered to,
              a soft toy for children up to 6 years old, and a children's kit for children up to 6-10 years old.</p>`,
-            image: "Images/offers/offer1.jpg",
         },
         {
             id: 'Business-Class',
+            image: 'Images/servicesimages/servicesbusiness.webp',
             title: 'Business Class',
             shortdescription: `Travel in comfort and more relaxed journey in Business Class`,
             description: `
@@ -126,10 +113,10 @@ export const DataInfo = {
             <br/>
             <p>On long-haul flights passengers are offered a travel kit with personal hygiene items, cosmetic products and accessories of high quality are offered to, a soft toy for
             children up to 6 years old, and a children's kit for children up to 6-10 years old.</p>`,
-            image: "Images/offers/offer1.jpg",
         },
         {
             id: 'Economy-Class',
+            image: 'Images/servicesimages/serviceseco.webp',
             title: 'Economy Class',
             shortdescription: `Enjoy high standards of service when travelling with us in Economy Class.`,
             description: `
@@ -153,10 +140,10 @@ export const DataInfo = {
             <p>Depending on the time of departure and destination, meals and beverages are served on board the aircraft.</p>
             <br/>
             <p>Depending on the flight duration, you can order special meals to fit your dietary needs in advance, at least 24 hours before departure.</p>`,
-            image: "Images/offers/offer1.jpg",
         },
         {
             id: 'Class-Upgrade',
+            image: 'Images/servicesimages/businessupgrade.webp',
             title: 'Class Upgrade',
             shortdescription: `Class Upgrade service on the flights of “Azerbaijan Airlines " is available only at sales offices and official agencies of the Airline.`,
             description: `
@@ -167,13 +154,12 @@ export const DataInfo = {
             access to the Business Lounge (AZAL Lounge) at Heydar Aliyev International Airport.</p>
             <br/>
             `,
-            image: "Images/offers/offer1.jpg",
         },
       
     ],
     experience: [
         {
-            id: ' Meals-on-board',
+            id: 'Meals-on-board',
             title: 'Meals on-board',
             shortdescription: `Free meals are served on all international flights of Azerbaijan Airlines`,
             description: `
@@ -203,10 +189,10 @@ export const DataInfo = {
             <br/>
             <p>BLML: Bland/Soft Meal</p>
             <br/>`,
-            image: "Images/offers/offer1.jpg",
+            image: 'Images/experience/speicalmealjpg.webp',
         },
         {
-            id: ' Enhanced-comfort-seats',
+            id: 'Enhanced-comfort-seats',
             title: 'Enhanced comfort seats',
             shortdescription: `Enhanced comfort seats`,
             description: `
@@ -222,7 +208,7 @@ export const DataInfo = {
             <p>In case if comfort seats cannot be provided by the Airline (replacement of the aircraft type, etc.) paid amount will be refunded.</p>
             <br/>
             `,
-            image: "Images/offers/offer1.jpg",
+            image: 'Images/servicesimages/servicespremium.webp',
         },
     ],
     flights: [
@@ -2244,7 +2230,84 @@ export const DataInfo = {
     
           
        
-    ]
+  ],
+  menuItems: [
+    {
+      title: "Plan your trip",
+      subItems: [
+        "Destinations",
+        "Book a flight",
+        "Online check-in",
+        "Manage your booking",
+        "Offers",
+        "Visa for Azerbaijan",
+      ],
+    },
+    {
+      title: "Services",
+      subItems: ["Premium Economy",
+      "Business Class",
+      "Economy Class",
+      "Class Upgrade"] }, 
+    {
+      title: "On-Board Experience",
+      subItems: [
+        "Meals on-board",
+        "Enhanced comfort seats",
+    ] },
+    {
+      title: "Information",
+      subItems: [
+        "General information",
+        "Baggage Information",
+        "Fare rules",
+        "Travelling with children and pregnant",
+        "Travelling with pets",
+        "Unwanted passengers",
+        "Overbooking",
+        "Dangerous objects",
+        "Rules & Conditions",
+        "Pricing Policy",
+        "AZAL Cargo"
+    ] },
+    {
+      title: "AZAL Miles",
+      subItems: [
+        "Discover",
+        "Earn miles",
+        "Spend miles",
+      ]
+    },
+    {
+      title: "Azerbaijan Airlines",
+      subItems: [
+        "About us",
+        "Supervisory Board of AZAL",
+        "Latest news",
+        "Our fleet",
+        "Career",
+        "Help Center",
+        "Write us",
+        "Mobile apps",
+        "Our partners",
+        "Blog"
+      ]
+    },
+    {
+      title: "Corporate information",
+      subItems: [
+      "Group transportations",
+      "Sales offices",
+      "Office & Representation Offices",
+      "Visiting days",
+      "Press Room",
+      "Subdivisions",
+      "Financial reports",
+      "Information for agents",
+        "Against human trafficking"
+      ]
+    },
+  ]
 
 
 

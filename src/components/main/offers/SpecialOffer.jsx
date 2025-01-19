@@ -13,7 +13,7 @@ function SpecialOffer() {
                     <h3 className='text-[1.8em]  p-3'>Special offers</h3>
                     <Link to={`/offers`}><button className='bg-gray-100 text-[#01357e] p-3 m-2 rounded-lg'>View All</button></Link>
                 </div>
-                <ul className=' sm:flex   justify-center items-center  '>
+                <ul className=' md:flex   justify-center items-center  '>
                   {
                       offers.slice(0, 2).map(item => (
                         <li id='card' key={item.id} className=' p-2  md:flex md:items-center  ' >

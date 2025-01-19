@@ -10,6 +10,7 @@ export default {
       'sm': '430px',
 
       'md': '710px',
+      'md2': '850px',
 
       'lg': '1280px',
     },

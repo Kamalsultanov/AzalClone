@@ -134,9 +134,20 @@
   background-color: #01357e !important;
 }
 
-#header1{
-  background-color: rgba(0, 0, 0, 0);  
+.svg-container svg path {
+  fill: #01357e !important;
+}
 
+.specialbackground{
+  background: radial-gradient(100% 100% at 0% 0%, #E6E1F9 0%, #F7F7F7 48.96%, #E8F3FC 100%);
+}
+
+#navbackground {
+  background-image: url('/Images/nav-bg.png') !important;
+  background-color: white; 
+  background-size:cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 @media only screen and (min-width: 430px) {

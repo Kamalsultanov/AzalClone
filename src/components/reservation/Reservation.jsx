@@ -28,19 +28,20 @@ import { FaPersonWalkingLuggage } from "react-icons/fa6";
 import Booking from "../header/Booking";
 import { FaExchangeAlt } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
+import { Flight } from "../../Context/FlightContext";
+import { ImCross } from "react-icons/im";
+
+import Stepper from "./Stepper";
 
 function Reservation() {
   const { flights } = useContext(DATA);
+  const navigate = useNavigate()
   const location = useLocation();
   const [bookingData, setBookingData] = useState(location.state);
-  console.log(bookingData);
   const [filteredFlights, setFilteredFlights] = useState([]);
-  const navigate = useNavigate();
-
   const hasReturnFlight = bookingData.returnDate !== null;
 
-
-  
+  const [availabletab, setAvailabletab] = useState(false);
 
   const [outboundDates, setOutboundDates] = useState([]);
   const [returnDates, setReturnDates] = useState([]);
@@ -75,14 +76,6 @@ function Reservation() {
     }
   }, [bookingData]);
 
-  const handleOutboundDate = (date) => {
-    setSelectedOutboundDate(date);
-  };
-
-  const handleReturnDate = (date) => {
-    setSelectedReturnDate(date);
-  };
-
   //  FLight find
 
   useEffect(() => {
@@ -96,7 +89,12 @@ function Reservation() {
               flight.to === "BAK") ||
             (flight.from === "BAK" && flight.to === bookingData.toAirportCode)
       );
-      setFilteredFlights(filtered);
+      if (filtered.length === 0) {
+        setFilteredFlights([]);
+        setAvailabletab(true);
+      } else {
+        setFilteredFlights(filtered);
+      }
     }
   }, [bookingData, flights]);
 
@@ -145,101 +143,148 @@ function Reservation() {
   const formattedTotalDuration = `${totalDuration.hours}h ${totalDuration.minutes}m`;
 
   //  =========  FLIGHT SELECTED ===========
-  const [selectedFlightTime, setSelectedFlightTime] = useState("");
-  
+  const [selectedFlightTime, setSelectedFlightTime] = useState({
+    start: "",
+    end: "",
+  });
 
-
-  const handleFlightTimeSelect = (flightTime, index) => {
-    setSelectedFlightTime(flightTime);
+  const handleFlightTimeSelect = (filteredFlights) => {
+    if (filteredFlights.length === 1) {
+      const firstFlightTimes = filteredFlights[0]?.flightTimes[0];
+      setSelectedFlightTime({
+        start: firstFlightTimes?.start || "",
+        end: firstFlightTimes?.end || "",
+      });
+    } else if (filteredFlights.length > 1) {
+      const firstFlightTimes = filteredFlights[0]?.flightTimes[0];
+      const lastFlightTimes =
+        filteredFlights[filteredFlights.length - 1]?.flightTimes.slice(-1)[0];
+      setSelectedFlightTime({
+        start: firstFlightTimes?.start || "",
+        end: lastFlightTimes?.end || "",
+      });
+    } else null;
   };
+  useEffect(() => {
+    handleFlightTimeSelect(filteredFlights);
+  }, [filteredFlights]);
+
+  const {
+    setOutboundFlight,
+    setReturnFlight,
+    setPassengerData,
+    setFormattedTotalDuration,
+  } = useContext(Flight);
 
   const [outboundFlightDetails, setOutboundFlightDetails] = useState({
-  fare: "",
-  totalPrice: 0,
-  flightNumber: "",
-  airplaneModel: "",
-  start: "",
-  end: "",
-  flightTime: "",
-});
+    fare: "",
+    totalPrice: 0,
+    flightNumber: "",
+    airplaneModel: "",
+    start: "",
+    end: "",
+    flightTime: "",
+    date: "",
+    fromAirportCode: "",
+    toAirportCode: "",
+  });
 
-const [returnFlightDetails, setReturnFlightDetails] = useState({
-  fare: "",
-  totalPrice: 0,
-  flightNumber: "",
-  airplaneModel: "",
-  start: "",
-  end: "",
-  flightTime: "",
-});
+  const [returnFlightDetails, setReturnFlightDetails] = useState({
+    fare: "",
+    totalPrice: 0,
+    flightNumber: "",
+    airplaneModel: "",
+    start: "",
+    end: "",
+    flightTime: "",
+    date: "",
+    fromAirportCode: "",
+    toAirportCode: "",
+  });
 
-const handleFareSelection = (fare, totalPrice, flightDetails, isOutbound) => {
-  const selectedDetails = {
-    fare,
-    totalPrice,
-    flightNumber: flightDetails.flightNumber,
-    airplaneModel: flightDetails.airplaneModel,
-    fromAirportName: fromAirportName,
-    toAirportName: toAirportName,
-    flightTime: selectedFlightTime,
-  };
-  if (isOutbound) {
-    setOutboundFlightDetails(selectedDetails);
+  const handleFareSelection = (fare, totalPrice, flightDetails, isOutbound) => {
+    const selectedDetails = {
+      fare,
+      totalPrice,
+      flightNumber: flightDetails.flightNumber,
+      airplaneModel: flightDetails.airplaneModel,
+      fromAirportName: fromAirportName,
+      toAirportName: toAirportName,
+      flightTime: selectedFlightTime,
+      date: isOutbound ? selectedOutboundDate : selectedReturnDate,
+      fromAirportCode: fromAirportCode,
+      toAirportCode: toAirportCode,
+    };
+
+    const passengerData = {
+      adults: bookingData.adults,
+      children: bookingData.children,
+      babies: bookingData.babies,
+    };
+
+    setPassengerData(passengerData);
+    setFormattedTotalDuration(formattedTotalDuration);
 
     if (!bookingData.returnDate) {
-      navigate("/confirm", { state: { outboundFlight: selectedDetails } });
+      setReturnFlight(null);
+      localStorage.removeItem("returnFlight");
+      navigate("/confirm");
     } else {
       setSelected(1);
       setclastabvisible(false);
       swapAirportDetails();
     }
-  } else {
-    setReturnFlightDetails(selectedDetails);
 
-    navigate("/confirm", {
-      state: {
-        outboundFlight: outboundFlightDetails,
-        returnFlight: selectedDetails,
-      },
-    });
-    setclastabvisible(false);
-  }
-};
+    if (isOutbound) {
+      setOutboundFlight(selectedDetails);
+      setOutboundFlightDetails(selectedDetails);
 
-console.log("Outbound Flight Details:", outboundFlightDetails);
-console.log("Return Flight Details:", returnFlightDetails);
+      if (!bookingData.returnDate) {
+        navigate("/confirm");
+      } else {
+        setSelected(1);
+        setclastabvisible(false);
+        swapAirportDetails();
+      }
+    } else {
+      const returnDetails = {
+        ...selectedDetails,
+        date: selectedReturnDate,
+      };
 
-const swapAirportDetails = () => {
-  const updatedBookingData = {
-    ...bookingData,
-    fromAirportCode: bookingData.toAirportCode,
-    toAirportCode: bookingData.fromAirportCode,
-    fromSearch: bookingData.toSearch,
-    toSearch: bookingData.fromSearch,
+      setReturnFlight(returnDetails);
+      setReturnFlightDetails(returnDetails);
+
+      navigate("/confirm");
+      setclastabvisible(false);
+    }
   };
 
-  setBookingData(updatedBookingData);
+  const swapAirportDetails = () => {
+    const updatedBookingData = {
+      ...bookingData,
+      fromAirportCode: bookingData.toAirportCode,
+      toAirportCode: bookingData.fromAirportCode,
+      fromSearch: bookingData.toSearch,
+      toSearch: bookingData.fromSearch,
+    };
 
-  const filtered = flights.filter((flight) =>
-    updatedBookingData.fromAirportCode === "BAK" ||
-    updatedBookingData.toAirportCode === "BAK"
-      ? flight.from === updatedBookingData.fromAirportCode &&
-        flight.to === updatedBookingData.toAirportCode
-      : (flight.from === updatedBookingData.fromAirportCode &&
-          flight.to === "BAK") ||
-        (flight.from === "BAK" &&
-          flight.to === updatedBookingData.toAirportCode)
-  );
+    setBookingData(updatedBookingData);
 
-  useEffect(() => {
-    if (location.state?.refresh) {
-      console.log("Refreshing search results with:", location.state);
-    }
-  }, [location.state]);
+    const filtered = flights.filter((flight) =>
+      updatedBookingData.fromAirportCode === "BAK" ||
+      updatedBookingData.toAirportCode === "BAK"
+        ? flight.from === updatedBookingData.fromAirportCode &&
+          flight.to === updatedBookingData.toAirportCode
+        : (flight.from === updatedBookingData.fromAirportCode &&
+            flight.to === "BAK") ||
+          (flight.from === "BAK" &&
+            flight.to === updatedBookingData.toAirportCode)
+    );
 
+    setFilteredFlights(filtered);
+  };
 
-  setFilteredFlights(filtered);
-};
   // ===================  Flight Button================
   const [selected, setSelected] = useState(0);
 
@@ -249,84 +294,109 @@ const swapAirportDetails = () => {
     }
   }, [outboundFlightDetails.fare, bookingData.returnDate]);
 
-
   // =========  Booking Style ===========
 
   const [bookingtab, setBookingtab] = useState(false);
-
 
   useEffect(() => {
     if (location.state?.refresh) {
       setBookingtab(false);
       const updatedState = { ...location.state };
       delete updatedState.refresh;
-      navigate("/book", { state: updatedState, replace: true }); 
-        window.location.reload();
+      navigate("/book", { state: updatedState, replace: true });
+      window.location.reload();
     }
   }, [location.state]);
 
-  console.log("Filtered Flights:", filteredFlights);
+  const getStartAndEndTimes = (filteredFlights) => {
+    if (filteredFlights.length === 1) {
+      const firstFlightTimes = filteredFlights[0]?.flightTimes[0];
+      return {
+        start: firstFlightTimes?.start,
+        end: firstFlightTimes?.end,
+      };
+    } else if (filteredFlights.length > 1) {
+      const firstFlightTimes = filteredFlights[0]?.flightTimes[0];
+      const lastFlightTimes =
+        filteredFlights[filteredFlights.length - 1]?.flightTimes.slice(-1)[0];
+      return {
+        start: firstFlightTimes?.start,
+        end: lastFlightTimes?.end,
+      };
+    }
+    return { start: null, end: null };
+  };
+  const { start, end } = getStartAndEndTimes(filteredFlights);
+
 
   return (
-    <div className=" bg-[#edf1f4] p-2 pt-24">
+    <div className=" bg-[#edf1f4] p-2 min-h-[90vh] ">
       {/* ----------------BOOKING--------------*/}
       <div className="md:hidden">
-      {bookingtab ? (
-        <div className="fixed top-0 left-0 w-full h-full bg-white shadow-lg z-50  p-5">
-          <div className="flex  justify-between">
-            <h2 className="text-lg font-bold">Booking</h2>
-            <button
-              onClick={() => {setBookingtab(false);}}
-              className="text-gray-500 hover:text-gray-800"
-            >
-              <RxCross2 className="text-[1.6em]" />
-            </button>    
-          </div>
-          <div>
-            <Booking />
-          </div>
-        </div>
-      ) : (
-            <div className="p-3 m-3 flex bg-white rounded-lg border-2 justify-between  cursor-pointer"
-            onClick={() => {setBookingtab(true)}}
-            >
-              <div>
-            <div className="flex items-center font-semibold">
-              <span className="m-2">{fromAirportName}</span>
-              <FaExchangeAlt />
-              <span className="m-2">{toAirportName}</span>
+        {bookingtab ? (
+          <div className="fixed top-0 left-0 w-full h-full bg-white shadow-lg z-50  p-5">
+            <div className="flex  justify-between">
+              <h2 className="text-lg font-bold">Booking</h2>
+              <button
+                onClick={() => {
+                  setBookingtab(false);
+                }}
+                className="text-gray-500 hover:text-gray-800"
+              >
+                <RxCross2 className="text-[1.6em]" />
+              </button>
             </div>
-            <div className="text-gray-600 text-[0.8em] mx-2">
-              {new Date(bookingData.outboundDate).toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "short",
-              })}{" "}
-              -{" "}
-              {bookingData.returnDate
-                ? new Date(bookingData.returnDate).toLocaleDateString("en-GB", {
+            <div>
+              <Booking />
+            </div>
+          </div>
+        ) : (
+          <div
+            className="p-3 m-3 flex bg-white rounded-lg border-2 justify-between  cursor-pointer"
+            onClick={() => {
+              setBookingtab(true);
+            }}
+          >
+            <div>
+              <div className="flex items-center font-semibold">
+                <span className="m-2">{fromAirportName}</span>
+                <FaExchangeAlt />
+                <span className="m-2">{toAirportName}</span>
+              </div>
+              <div className="text-gray-600 text-[0.8em] mx-2">
+                {new Date(bookingData.outboundDate).toLocaleDateString(
+                  "en-GB",
+                  {
                     day: "2-digit",
                     month: "short",
-                  })
-                : "No return"}
-              ,{" "}
-              {bookingData.adults +
-                bookingData.children +
-                bookingData.babies}{" "}
-              passenger
-              {bookingData.adults +
-                bookingData.children +
-                bookingData.babies > 1
-                ? "s"
-                : ""}
+                  }
+                )}{" "}
+                -{" "}
+                {bookingData.returnDate
+                  ? new Date(bookingData.returnDate).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                      }
+                    )
+                  : "No return"}
+                ,{" "}
+                {bookingData.adults + bookingData.children + bookingData.babies}{" "}
+                passenger
+                {bookingData.adults +
+                  bookingData.children +
+                  bookingData.babies >
+                1
+                  ? "s"
+                  : ""}
+              </div>
             </div>
+            <button className="text-gray-400 rounded">
+              <MdModeEditOutline className="w-6 h-6" />
+            </button>
           </div>
-          <button
-            className="text-gray-400 rounded"
-          >
-            <MdModeEditOutline className="w-6 h-6" />
-          </button>
-        </div>
-      )}
+        )}
       </div>
       <div className="hidden md:block">
         <Booking />
@@ -341,20 +411,32 @@ const swapAirportDetails = () => {
                 : "border-2 border-[#c1c8d1] "
             }`}
           >
-            <span className={` h-[100%]   justify-center items-center flex p-2 rounded-l-lg md:w-[20%]  ${ selected === 0 ? "bg-[#37a6db]  " : "md:bg-transparent"}`}>
+            <span
+              className={` h-[100%]   justify-center items-center flex p-2 rounded-l-lg md:w-[20%]  ${
+                selected === 0 ? "bg-[#37a6db]  " : "md:bg-transparent"
+              }`}
+            >
               <MdFlightTakeoff
-                className={` w-[20px] h-[20px]  ${selected === 0 ? "text-white md:bg-[#37a6db]  " : "text-[#8d9094]"}`}
+                className={` w-[20px] h-[20px]  ${
+                  selected === 0
+                    ? "text-white md:bg-[#37a6db]  "
+                    : "text-[#8d9094]"
+                }`}
               />
-           </span>
+            </span>
             <p
               className={`font-semibold text-[0.8em]  md:text-[1em] p-2 ${
-                selected === 0 ? "block text-white md:text-[#37a6db]" : "hidden md:block text-[#8d9094]"
+                selected === 0
+                  ? "block text-white md:text-[#37a6db]"
+                  : "hidden md:block text-[#8d9094]"
               }`}
             >
               Choose outbound flight
             </p>
-            <span className={`hidden md:block  font-semibold mx-2 
-              ${selected === 0 ? "text-[#37a6db]" : " text-[#8d9094]"}`}>
+            <span
+              className={`hidden md:block  font-semibold mx-2 
+              ${selected === 0 ? "text-[#37a6db]" : " text-[#8d9094]"}`}
+            >
               {fromAirportName}-{toAirportName}
             </span>
           </button>
@@ -365,24 +447,33 @@ const swapAirportDetails = () => {
                 : "border-2 border-[#c1c8d1] "
             }`}
           >
-            <span className={` h-[100%]   justify-center items-center flex rounded-l-lg md:w-[20%]  ${ selected === 0 ? "md:bg-transparent  " : " md:bg-[#37a6db]"}`}>
-              <MdFlightLand 
-                className={` w-[20px] h-[20px]  ${selected === 0 ? "text-[#8d9094] " : " text-white"}`}
+            <span
+              className={` h-[100%]   justify-center items-center flex rounded-l-lg md:w-[20%]  ${
+                selected === 0 ? "md:bg-transparent  " : " md:bg-[#37a6db]"
+              }`}
+            >
+              <MdFlightLand
+                className={` w-[20px] h-[20px]  ${
+                  selected === 0 ? "text-[#8d9094] " : " text-white"
+                }`}
               />
-           </span>
+            </span>
             <p
               className={`font-semibold text-[0.8em]  md:text-[1em] p-2 ${
-                selected === 1 ? "block text-white md:text-[#37a6db]" : "hidden md:block text-[#8d9094]"
+                selected === 1
+                  ? "block text-white md:text-[#37a6db]"
+                  : "hidden md:block text-[#8d9094]"
               }`}
             >
               Choose return flight
             </p>
-            <span className={`hidden md:block  font-semibold mx-2 
-              ${selected === 1 ? "text-[#37a6db]" : " text-[#8d9094]"}`}>
+            <span
+              className={`hidden md:block  font-semibold mx-2 
+              ${selected === 1 ? "text-[#37a6db]" : " text-[#8d9094]"}`}
+            >
               {toAirportName}-{fromAirportName}
             </span>
           </button>
-         
         </div>
       </div>
       {/* ----------------SLIDER--------------*/}
@@ -450,7 +541,9 @@ const swapAirportDetails = () => {
                       </g>
                     </g>
                   </svg>
-                  <span className=" hidden text-[#6E7583] text-[0.8em] md:block">Azerbaijan Airlines</span>
+                  <span className=" hidden text-[#6E7583] text-[0.8em] md:block">
+                    Azerbaijan Airlines
+                  </span>
                 </li>
                 {filteredFlights.map((flight, index) =>
                   flight.flightNumber?.slice(0, 1).map((item, flightIndex) => (
@@ -487,7 +580,11 @@ const swapAirportDetails = () => {
             <div className="flex justify-between">
               <div className=" flex flex-col items-center m-2 md:hidden">
                 <div className="w-3 h-3 rounded-full border-2 border-black"></div>
-                <div className="border h-20 border-black"></div>
+                <div className="border h-10 border-black"></div>
+                {filteredFlights.length > 1 && (
+                  <div className="w-2 h-2 bg-black rounded-full"></div>
+                )}
+                <div className="border h-10 border-black"></div>
                 <div className="w-3 h-3 rounded-full border-2 border-black"></div>
               </div>
               <div className="flex flex-col justify-between p-1 m-1 md:hidden">
@@ -495,7 +592,7 @@ const swapAirportDetails = () => {
                   <div className="font-semibold">{item.start}</div>
                   <div className="text-[0.7em] text-[#6E7583]">
                     {(outboundFlightDetails.fare
-                      ? selectedReturnDate || selectedOutboundDate 
+                      ? selectedReturnDate || selectedOutboundDate
                       : selectedOutboundDate
                     ).toLocaleDateString("en-GB", {
                       day: "2-digit",
@@ -508,7 +605,7 @@ const swapAirportDetails = () => {
                   <div className="font-semibold">{item.end}</div>
                   <div className="text-[0.7em] text-[#6E7583]">
                     {(outboundFlightDetails.fare
-                      ? selectedReturnDate || selectedOutboundDate 
+                      ? selectedReturnDate || selectedOutboundDate
                       : selectedOutboundDate
                     ).toLocaleDateString("en-GB", {
                       day: "2-digit",
@@ -587,16 +684,20 @@ const swapAirportDetails = () => {
                       </g>
                     </g>
                   </svg>
-                  <span className=" hidden text-[#6E7583] text-[0.8em] md:block">Azerbaijan Airlines</span>
+                  <span className=" hidden text-[#6E7583] text-[0.8em] md:block">
+                    Azerbaijan Airlines
+                  </span>
                 </div>
                 <div className="flex m-2 items-center">
-                  <span className="text-[1.7em] ">
-                      {item.start}
-                  </span>
+                  <span className="text-[1.7em] ">{item.start}</span>
                   <div className="pt-7">
                     <div className=" flex flex-col md:flex-row items-center m-2 ">
                       <div className="w-2 h-2 rounded-full border-2 border-black"></div>
-                      <div className="border h-20 border-black md:h-[2px]  md:bg-black md:w-[150px]"></div>
+                      <div className="border h-10 border-black md:h-[2px]  md:bg-black md:w-[75px]"></div>
+                      {filteredFlights.length > 1 && (
+                        <div className="w-2 h-2 bg-black rounded-full"></div>
+                      )}
+                      <div className="border h-10 border-black md:h-[2px]  md:bg-black md:w-[75px]"></div>
                       <div className="w-2 h-2 rounded-full border-2 border-black"></div>
                     </div>
                     <div className="flex justify-between text-[0.6em] font-semibold mx-1">
@@ -606,48 +707,51 @@ const swapAirportDetails = () => {
                   </div>
                   <span className="text-[1.7em]">{item.end}</span>
                 </div>
-                <div className="flex justify-between mx-2 mb-5">
+                <div className="flex justify-between mx-2 ml-6 mb-5">
                   <div>
-                      <span className="text-[#979DA8] w-12 h-12">
-                        <MdFlightTakeoff />
-                      </span>
-                      <span className="text-[0.9em]">
-                        {fromAirportName},{fromAirportCode}
-                      </span>  
+                    <span className="text-[#979DA8] w-12 h-12">
+                      <MdFlightTakeoff />
+                    </span>
+                    <span className="text-[0.9em]">
+                      {fromAirportName}, {fromAirportCode}
+                    </span>
                   </div>
                   <div>
-                      <span className="text-[#979DA8]">
-                        <MdFlightLand />
-                      </span>
-                      <span className="text-[0.9em]">
-                        {toAirportName},{toAirportCode}
-                      </span>  
+                    <span className="text-[#979DA8]">
+                      <MdFlightLand />
+                    </span>
+                    <span className="text-[0.9em]">
+                      {toAirportName}, {toAirportCode}
+                    </span>
                   </div>
                 </div>
-             
               </div>
             </div>
-            <div id="ClassOptions" className="my-2 border-t-2 w-full md:border-none md:flex md:w-[80%]">
+            <div
+              id="ClassOptions"
+              className="my-2 border-t-2 w-full md:border-none md:flex md:w-[80%]"
+            >
               <div className="md:w-[100%] md:ml-4 ">
-               
-                  <div className="flex items-center">
-                    <div className="flex items-center text-[#2c8dc7] m-3">
-                      {filteredFlights.length === 2 ? (
-                        <span>
-                          <FaPersonWalkingLuggage size={20} />
-                        </span>
-                      ) : (
-                          <HiArrowLongRight size={20} />
-                      )}
-                    </div>
-                    <p className="text-[0.8em] font-semibold">
-                      {filteredFlights.length === 2 ? "1 stop" : "Without stops"}
-                    </p>
+                <div className="flex items-center">
+                  <div className="flex items-center text-[#2c8dc7] m-3">
+                    {filteredFlights.length === 2 ? (
+                      <span>
+                        <FaPersonWalkingLuggage size={20} />
+                      </span>
+                    ) : (
+                      <HiArrowLongRight size={20} />
+                    )}
                   </div>
-                  <div className="hidden md:block  ">
-                      <ul className="flex items-center flex-wrap w-[76%]">
-                      {filteredFlights.map((flight, index) =>
-                        flight.flightNumber?.slice(0, 1).map((item, flightIndex) => (
+                  <p className="text-[0.8em] font-semibold">
+                    {filteredFlights.length === 2 ? "1 stop" : "Without stops"}
+                  </p>
+                </div>
+                <div className="hidden md:block  ">
+                  <ul className="flex items-center flex-wrap w-[76%]">
+                    {filteredFlights.map((flight, index) =>
+                      flight.flightNumber
+                        ?.slice(0, 1)
+                        .map((item, flightIndex) => (
                           <li
                             key={`${index}-${flightIndex}`}
                             className="flex items-center m-1 text-[#6e7583] text-[0.7em] font-semibold border p-1
@@ -657,26 +761,29 @@ const swapAirportDetails = () => {
                             <p>{item}</p>
                           </li>
                         ))
-                      )}
-                      {filteredFlights.map((airplane, index) =>
-                        airplane.airplaneModel
-                          ?.slice(0, 1)
-                          .map((item, airplaneIndex) => (
-                            <li
-                              key={`${index}-${airplaneIndex}`}
-                              className="flex items-center m-1 text-[#6e7583] text-[0.7em] font-semibold border p-1 rounded-3xl border-gray-300
+                    )}
+                    {filteredFlights.map((airplane, index) =>
+                      airplane.airplaneModel
+                        ?.slice(0, 1)
+                        .map((item, airplaneIndex) => (
+                          <li
+                            key={`${index}-${airplaneIndex}`}
+                            className="flex items-center m-1 text-[#6e7583] text-[0.7em] font-semibold border p-1 rounded-3xl border-gray-300
                               
                               "
-                            >
-                              <MdAirplaneTicket size={13} className="m-1" />
-                              <p>{item}</p>
-                            </li>
-                          ))
-                      )}
-                      </ul>
-                      <span className="text-[2em] mt-">    {formattedTotalDuration}</span>
-                  </div>
+                          >
+                            <MdAirplaneTicket size={13} className="m-1" />
+                            <p>{item}</p>
+                          </li>
+                        ))
+                    )}
+                  </ul>
+                  <span className="text-[2em] mt-">
+                    {" "}
+                    {formattedTotalDuration}
+                  </span>
                 </div>
+              </div>
               <div className="w-full my-3 lg:my-0 ">
                 <ul className="flex w-full  justify-center  mx-auto flex-wrap gap-2 md:w-[100%] md:justify-end md:h-[200px] lg:h-[90%]">
                   <li className=" border min-w-[48%] md:min-w-[45%]   border-[#01357E] rounded-lg hover:border-2    ">
@@ -728,7 +835,6 @@ const swapAirportDetails = () => {
                     </div>
                   </li>
                 </ul>
-
               </div>
             </div>
           </div>
@@ -736,307 +842,379 @@ const swapAirportDetails = () => {
       </div>
       {/* ----------------Class TAB--------------*/}
       {classtabvisible && (
-        <div className="fixed top-0 left-0 z-50 bg-white h-full w-full">
-          <div className="font-bold m-2 text-[1.2em] workfontb flex justify-between items-center ">
-            <h1>Choose a tariff for the flight outbound</h1>
-            <button onClick={handleClassTab}>
-              <RxCross2 size={25} />
-            </button>
-          </div>
-          <div className="mx-2 my-3 text-[#6E7583] text-[1.1em] ">
-            <span>
-              {fromAirportName}-{toAirportName}⋅
-              {selectedOutboundDate.toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "short",
-              })}
-            </span>
-          </div>
-          <div className="flex w-[90%] justify-center mx-auto m-2">
-            <button
-              onClick={() => handleClass("Economy")}
-              className={`rounded-l-lg  px-4 py-2 border w-[50%] 
+        <div className="w-full h-full fixed top-0 left-0 z-40 backdrop-blur-md  ">
+          <div className="fixed top-0 left-0 z-50 bg-white h-full w-full md:w-[70%] md:left-[16%] md:h-[80%] md:top-[40px] md:rounded-lg drop-shadow-md md:p-3">
+            <div className="font-bold m-2 text-[1.2em] workfontb flex justify-between items-center ">
+              <h1>Choose a tariff for the flight outbound</h1>
+              <button onClick={handleClassTab}>
+                <RxCross2 size={25} />
+              </button>
+            </div>
+            <div className="mx-2 my-3 text-[#6E7583] text-[1.1em]">
+              <span>
+                {fromAirportName}-{toAirportName}⋅
+                {(outboundFlightDetails.fare
+                  ? selectedReturnDate
+                  : selectedOutboundDate
+                ).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                })}
+              </span>
+            </div>
+            <div className="flex w-[90%] justify-center mx-auto m-2">
+              <button
+                onClick={() => handleClass("Economy")}
+                className={`rounded-l-lg  px-4 py-2 border w-[50%] 
                              ${
                                selectedClass === "Economy"
                                  ? " text-blue-700 border-blue-500 "
                                  : "bg-gray-100 text-black"
                              }`}
-            >
-              Economy
-            </button>
-            <button
-              onClick={() => handleClass("Business")}
-              className={`rounded-r-lg  px-4 py-2 border w-[50%] 
+              >
+                Economy
+              </button>
+              <button
+                onClick={() => handleClass("Business")}
+                className={`rounded-r-lg  px-4 py-2 border w-[50%] 
                              ${
                                selectedClass === "Business"
                                  ? " text-blue-700 border-blue-500"
                                  : "bg-gray-100 text-black"
                              }`}
-            >
-              Business
-            </button>
-          </div>
-          <div id="fares">
-            {/* ----------------FARES--------------*/}
-            <ul className="flex w-full justify-center mx-auto flex-wrap gap-2 h-[80vh] overflow-y-scroll">
-              {selectedClass === "Economy" &&
-                filteredFlights[0]?.economy &&
-                Object.entries(filteredFlights[0].economy).map(
-                  ([fare, price]) => {
-                    const totalPrice = filteredFlights.reduce(
-                      (total, flight) => total + (flight.economy[fare] || 0),
-                      0
-                    );
-                    return (
-                      <li
-                        id="card"
-                        key={fare}
-                        className="w-[90%] border-2 min-h-[420px] rounded-lg"
-                      >
-                        <h3 className="text-[1.3em] capitalize font-semibold m-3">
-                          {fare}
-                        </h3>
-                        <div className="m-3">
-                          <p className="font-semibold text-[1.6em]">
-                            {totalPrice}₼
-                          </p>
-                          <p className="text-[#6E7583]">
-                            for 1 passenger
-                          </p>
-                        </div>
-                        <div className="w-[90%] mx-auto ">
-                          {/* ==================== Button for select============ */}
-                          {!outboundFlightDetails.fare && (
+              >
+                Business
+              </button>
+            </div>
+            <div id="fares">
+              {/* ----------------FARES--------------*/}
+              <ul className="flex w-full justify-center mx-auto flex-wrap gap-2 h-[80vh] overflow-y-auto ">
+                {selectedClass === "Economy" &&
+                  filteredFlights[0]?.economy &&
+                  Object.entries(filteredFlights[0].economy).map(
+                    ([fare, price]) => {
+                      const totalPrice = filteredFlights.reduce(
+                        (total, flight) => total + (flight.economy[fare] || 0),
+                        0
+                      );
+                      return (
+                        <li
+                          id="card"
+                          key={fare}
+                          className="w-[90%] border-2 max-h-[420px] rounded-lg md:w-[30%] md:min-h-[200px] overflow-y-auto specialscrollbar"
+                        >
+                          <h3 className="text-[1.3em] capitalize font-semibold m-3">
+                            {fare}
+                          </h3>
+                          <div className="m-3">
+                            <p className="font-semibold text-[1.6em]">
+                              {totalPrice}₼
+                            </p>
+                            <p className="text-[#6E7583]">for 1 passenger</p>
+                          </div>
+                          <div className="w-[90%] mx-auto ">
+                            {/* ==================== Button for select============ */}
+                            {!outboundFlightDetails.fare && (
                               <button
-                                onClick={() => handleFareSelection(fare, totalPrice, filteredFlights[0], true)}
+                                onClick={() =>
+                                  handleFareSelection(
+                                    fare,
+                                    totalPrice,
+                                    filteredFlights[0],
+                                    true
+                                  )
+                                }
                                 className="w-full h-[40px] text-white mx-auto rounded-md bg-[#37A6DB]"
                               >
                                 Select Outbound
                               </button>
                             )}
-                            {outboundFlightDetails.fare && !returnFlightDetails.fare && bookingData.returnDate && (
-                              <button
-                                onClick={() => handleFareSelection(fare, totalPrice, filteredFlights[0], false)}
-                                className="w-full h-[40px] text-white mx-auto rounded-md bg-[#37A6DB]"
-                              >
-                                Select Return
-                              </button>
+                            {outboundFlightDetails.fare &&
+                              !returnFlightDetails.fare &&
+                              bookingData.returnDate && (
+                                <button
+                                  onClick={() =>
+                                    handleFareSelection(
+                                      fare,
+                                      totalPrice,
+                                      filteredFlights[0],
+                                      false
+                                    )
+                                  }
+                                  className="w-full h-[40px] text-white mx-auto rounded-md bg-[#37A6DB]"
+                                >
+                                  Select Return
+                                </button>
+                              )}
+                          </div>
+                          <div>
+                            {fare === "budget" && (
+                              <ul className="m-3">
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  {" "}
+                                  <GiMeal size={18} className="mr-2" />
+                                  Economy meals included
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  <MdOutlineLuggage
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Hand luggage 1x10 kg
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  {" "}
+                                  <MdAirlineSeatReclineExtra
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Economy seat
+                                </li>
+                                <li className="text-[#B6BAC1] flex items-center my-1">
+                                  {" "}
+                                  <FaSuitcaseRolling
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  No baggage
+                                </li>
+                                <li className="text-[#B6BAC1] flex items-center my-1">
+                                  <HiMiniReceiptRefund
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Refund unavailable
+                                </li>
+                                <li className="text-[#B6BAC1] flex items-center my-1">
+                                  <TbExchange size={18} className="mr-2" />
+                                  Changes unavailable
+                                </li>
+                              </ul>
                             )}
-                        </div>
-                        <div>
-                          {fare === "budget" && (
-                            <ul className="m-3">
-                              <li className="text-[#58595D] flex items-center my-1">
-                                {" "}
-                                <GiMeal size={18} className="mr-2" />
-                                Economy meals included
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                <MdOutlineLuggage size={18} className="mr-2" />
-                                Hand luggage 1x10 kg
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                {" "}
-                                <MdAirlineSeatReclineExtra
-                                  size={18}
-                                  className="mr-2"
-                                />
-                                Economy seat
-                              </li>
-                              <li className="text-[#B6BAC1] flex items-center my-1">
-                                {" "}
-                                <FaSuitcaseRolling size={18} className="mr-2" />
-                                No baggage
-                              </li>
-                              <li className="text-[#B6BAC1] flex items-center my-1">
-                                <HiMiniReceiptRefund
-                                  size={18}
-                                  className="mr-2"
-                                />
-                                Refund unavailable
-                              </li>
-                              <li className="text-[#B6BAC1] flex items-center my-1">
-                                <TbExchange size={18} className="mr-2" />
-                                Changes unavailable
-                              </li>
-                            </ul>
-                          )}
-                          {fare === "classic" && (
-                            <ul className="m-3">
-                              <li className="text-[#58595D] flex items-center my-1">
-                                {" "}
-                                <GiMeal size={18} className="mr-2" />
-                                Economy meals included
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                <MdOutlineLuggage size={18} className="mr-2" />
-                                Hand luggage 1x10 kg
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                {" "}
-                                <MdAirlineSeatReclineExtra
-                                  size={18}
-                                  className="mr-2"
-                                />
-                                Economy seat
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                {" "}
-                                <FaSuitcaseRolling size={18} className="mr-2" />
-                                Baggage 1x23 kg
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                <HiMiniReceiptRefund
-                                  size={18}
-                                  className="mr-2"
-                                />
-                                Refund available before departure penalty 75 €
-                                <br />
-                                Refund after departure unavailable
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                <TbExchange />
-                                Changes available before departure penalty 60 €
-                                <br />
-                                Changes after departure unavailable
-                              </li>
-                            </ul>
-                          )}
-                          {fare === "plus" && (
-                            <ul className="m-3">
-                              <li className="text-[#58595D] flex items-center my-1 ">
-                                {" "}
-                                <GiMeal size={18} className="mr-2" />
-                                Economy meals included
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                <MdOutlineLuggage size={18} className="mr-2" />
-                                Hand luggage 1x10 kg
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                {" "}
-                                <MdAirlineSeatReclineExtra
-                                  size={18}
-                                  className="mr-2"
-                                />
-                                Economy seat
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                {" "}
-                                <FaSuitcaseRolling size={18} className="mr-2" />
-                                Baggage 1x32 kg
-                              </li>
-                              <li className="text-[#58595D] flex items-center my-1">
-                                <HiMiniReceiptRefund
-                                  size={18}
-                                  className="mr-2"
-                                />
-                                Refund available before departure penalty 35 €
-                                <br />
-                                Refund after departure available penalty 75 €
-                              </li>
-                              <li className="text-[#58595D] flex items-center">
-                                <TbExchange />
-                                Changes available before departure
-                                <br />
-                                Changes available after departure penalty 50 €
-                              </li>
-                            </ul>
-                          )}
-                        </div>
-                      </li>
-                    );
-                  }
-                )}
-              {selectedClass === "Business" && filteredFlights[0]?.business && (
-                <li
-                  id="card"
-                  key="business"
-                  className="w-[90%] border-2 min-h-[420px] rounded-lg"
-                >
-                  <h3 className="text-[1.3em] capitalize font-semibold m-3">
-                    Business
-                  </h3>
-                  <div className="m-3">
-                    <p className="font-semibold text-[1.6em]">
-                      {(filteredFlights[0]?.business || 0) + (filteredFlights[1]?.business || 0)}₼
-                    </p>
-                    <p className="text-[#6E7583]">for 1 passenger</p>
-                  </div>
-                  <div className="w-[90%] mx-auto">
-                  {!outboundFlightDetails.fare && (
-                    <button
-                      onClick={() =>
-                        handleFareSelection(
-                          "business",
-                          (filteredFlights[0]?.business || 0) + (filteredFlights[1]?.business || 0), 
-                          filteredFlights[0], 
-                          true 
-                        )
-                      }
-                      className="w-full h-[40px] text-white mx-auto rounded-md bg-[#37A6DB]"
-                    >
-                      Select Outbound Business
-                    </button>
+                            {fare === "classic" && (
+                              <ul className="m-3">
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  {" "}
+                                  <GiMeal size={18} className="mr-2" />
+                                  Economy meals included
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  <MdOutlineLuggage
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Hand luggage 1x10 kg
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  {" "}
+                                  <MdAirlineSeatReclineExtra
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Economy seat
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  {" "}
+                                  <FaSuitcaseRolling
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Baggage 1x23 kg
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  <HiMiniReceiptRefund
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Refund available before departure penalty 75 €
+                                  <br />
+                                  Refund after departure unavailable
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  <TbExchange />
+                                  Changes available before departure penalty 60
+                                  €
+                                  <br />
+                                  Changes after departure unavailable
+                                </li>
+                              </ul>
+                            )}
+                            {fare === "plus" && (
+                              <ul className="m-3">
+                                <li className="text-[#58595D] flex items-center my-1 ">
+                                  {" "}
+                                  <GiMeal size={18} className="mr-2" />
+                                  Economy meals included
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  <MdOutlineLuggage
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Hand luggage 1x10 kg
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  {" "}
+                                  <MdAirlineSeatReclineExtra
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Economy seat
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  {" "}
+                                  <FaSuitcaseRolling
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Baggage 1x32 kg
+                                </li>
+                                <li className="text-[#58595D] flex items-center my-1">
+                                  <HiMiniReceiptRefund
+                                    size={18}
+                                    className="mr-2"
+                                  />
+                                  Refund available before departure penalty 35 €
+                                  <br />
+                                  Refund after departure available penalty 75 €
+                                </li>
+                                <li className="text-[#58595D] flex items-center">
+                                  <TbExchange />
+                                  Changes available before departure
+                                  <br />
+                                  Changes available after departure penalty 50 €
+                                </li>
+                              </ul>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    }
                   )}
+                {selectedClass === "Business" &&
+                  filteredFlights[0]?.business && (
+                    <li
+                      id="card"
+                      key="business"
+                      className="w-[90%] border-2 max-h-[420px] rounded-lg md:w-[30%] md:min-h-[300px] overflow-y-auto specialscrollbar"
+                    >
+                      <h3 className="text-[1.3em] capitalize font-semibold m-3">
+                        Business
+                      </h3>
+                      <div className="m-3">
+                        <p className="font-semibold text-[1.6em]">
+                          {(filteredFlights[0]?.business || 0) +
+                            (filteredFlights[1]?.business || 0)}
+                          ₼
+                        </p>
+                        <p className="text-[#6E7583]">for 1 passenger</p>
+                      </div>
+                      <div className="w-[90%] mx-auto">
+                        {!outboundFlightDetails.fare && (
+                          <button
+                            onClick={() =>
+                              handleFareSelection(
+                                "business",
+                                (filteredFlights[0]?.business || 0) +
+                                  (filteredFlights[1]?.business || 0),
+                                filteredFlights[0],
+                                true
+                              )
+                            }
+                            className="w-full h-[40px] text-white mx-auto rounded-md bg-[#37A6DB]"
+                          >
+                            Select Outbound Business
+                          </button>
+                        )}
 
-                  {outboundFlightDetails.fare && !returnFlightDetails.fare && bookingData.returnDate && (
-                    <button
-                      onClick={() =>
-                        handleFareSelection(
-                          "business",
-                          (filteredFlights[0]?.business || 0) + (filteredFlights[1]?.business || 0), 
-                          filteredFlights[0], 
-                          false 
-                        )
-                      }
-                      className="w-full h-[40px] text-white mx-auto rounded-md bg-[#37A6DB]"
-                    >
-                      Select Return Business
-                    </button>
+                        {outboundFlightDetails.fare &&
+                          !returnFlightDetails.fare &&
+                          bookingData.returnDate && (
+                            <button
+                              onClick={() =>
+                                handleFareSelection(
+                                  "business",
+                                  (filteredFlights[0]?.business || 0) +
+                                    (filteredFlights[1]?.business || 0),
+                                  filteredFlights[0],
+                                  false
+                                )
+                              }
+                              className="w-full h-[40px] text-white mx-auto rounded-md bg-[#37A6DB]"
+                            >
+                              Select Return Business
+                            </button>
+                          )}
+                      </div>
+                      <div>
+                        <ul className="m-3">
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <GiMeal className="mr-2" size={18} />
+                            Business class meals included
+                          </li>
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <MdOutlineLuggage size={18} className="mr-2" />
+                            Hand luggage 2x10 kg
+                          </li>
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <MdAirlineSeatReclineExtra
+                              size={18}
+                              className="mr-2"
+                            />
+                            Business class seat
+                          </li>
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <FaSuitcaseRolling size={18} className="mr-2" />
+                            Baggage 2x32 kg
+                          </li>
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <HiMiniReceiptRefund size={18} className="mr-2" />
+                            Refund available before departure penalty 60 €
+                            <br />
+                            Refund after departure available penalty 200 €
+                          </li>
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <GiSofa className="mr-2" size={18} />
+                            Access to lounge
+                          </li>
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <MdAirplaneTicket className="mr-2" size={18} />
+                            Priority check-in
+                          </li>
+                          <li className="text-[#58595D] flex items-center my-1">
+                            <FaPersonWalkingLuggage
+                              className="mr-2"
+                              size={18}
+                            />
+                            Priority boarding
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
                   )}
-                  </div>
-                  <div>
-                    <ul className="m-3">
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <GiMeal className="mr-2" size={18} />
-                        Business class meals included
-                      </li>
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <MdOutlineLuggage size={18} className="mr-2" />
-                        Hand luggage 2x10 kg
-                      </li>
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <MdAirlineSeatReclineExtra size={18} className="mr-2" />
-                        Business class seat
-                      </li>
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <FaSuitcaseRolling size={18} className="mr-2" />
-                        Baggage 2x32 kg
-                      </li>
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <HiMiniReceiptRefund size={18} className="mr-2" />
-                        Refund available before departure penalty 60 €
-                        <br />
-                        Refund after departure available penalty 200 €
-                      </li>
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <GiSofa className="mr-2" size={18} />
-                        Access to lounge
-                      </li>
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <MdAirplaneTicket className="mr-2" size={18} />
-                        Priority check-in
-                      </li>
-                      <li className="text-[#58595D] flex items-center my-1">
-                        <FaPersonWalkingLuggage className="mr-2" size={18} />
-                        Priority boarding
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              )}
-            </ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+      {availabletab && (
+        <div className="fixed top-[30%] left-[30%] bg-white border-2 drop-shadow-md w-[40%] flex justify-center rounded-lg p-3 ">
+          <div className=" flex justify-center flex-col items-center">
+            <div className="">
+              <ImCross className="w-[50px] h-[50px] text-[#37a6db] m-3" />
+            </div>
+            <h1 className="text-[0.8em] text-center">
+              We are sorry, but there are no flights/seats available on chosen
+              date.
+            </h1>
+            <button
+              className="w-[90%] bg-[#37a6db] p-2 text-white rounded-lg m-3 "
+              onClick={() => {
+                setAvailabletab(false);
+              }}
+            >
+              Okey
+            </button>
           </div>
         </div>
       )}

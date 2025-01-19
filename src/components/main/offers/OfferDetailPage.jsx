@@ -21,8 +21,6 @@ function OfferDetailPage() {
       }
   return (
     <div className="offer-detail w-[70%] mx-auto my-12">
-      <Breadcrumb/>
-      <h1 className='text-[#01357e] text-[1.7em] p-3 border-b border-[#afdae4] m-4 md:text-[2.2em]'>{offer.title}</h1>
       <div>
         <h3 className='text-[#e44541] font-bold m-4  '>{offer.publishDate}</h3>
         <img src={`/${offer.image}`} alt={offer.title} className="offer-image w- mx-auto  m-2" />
