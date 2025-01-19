@@ -41,7 +41,6 @@ async function getFrom() {
 
     return cities;
   } catch (error) {
-    console.error("Error fetching locations:", error);
     return null;
   }
 }

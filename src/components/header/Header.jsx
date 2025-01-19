@@ -1,17 +1,14 @@
 import React, { useState,useContext, useEffect   } from "react";
 import Logo from "../../assets/icons/logo.svg";
 import DarkLogo from "../../assets/icons/darklogo.svg";
-import { BsCurrencyExchange } from "react-icons/bs";
 import { CiGlobe } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
 import { DATA } from "../../Context/DataContext";
 import { useNavigate } from 'react-router-dom';
 
 import { HiBars3 } from "react-icons/hi2";
-import Booking from "./Booking";
 import { Link } from "react-router-dom";
 import { RxCross1 } from "react-icons/rx";
-import Loading from "../loading/Loading";
 
 
 function Header() {
